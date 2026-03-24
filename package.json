@@ -1,0 +1,101 @@
+{
+  "name": "tap-react",
+  "version": "1.0.0",
+  "description": "A highly customizable animated reaction system for React (like Facebook, LinkedIn, and X reactions). Built with React, TypeScript, and Framer Motion.",
+  "author": "Isaac Anasonye",
+  "license": "MIT",
+
+  "type": "module",
+
+  "homepage": "https://github.com/Isaacprogi/tap-react#readme",
+
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Isaacprogi/tap-react.git"
+  },
+
+  "bugs": {
+    "url": "https://github.com/Isaacprogi/tap-react/issues"
+  },
+
+  "keywords": [
+    "react",
+    "react-component",
+    "reaction-system",
+    "reaction-button",
+    "emoji-reactions",
+    "social-ui",
+    "facebook-reactions",
+    "linkedin-reactions",
+    "twitter-reactions",
+    "animated-ui",
+    "framer-motion",
+    "ui-library",
+    "feed-ui",
+    "comment-reactions",
+    "like-system",
+    "interactive-ui",
+    "typescript",
+    "tailwindcss",
+    "micro-interactions"
+  ],
+
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.es.js",
+  "types": "dist/index.d.ts",
+
+  "files": [
+    "dist"
+  ],
+
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.es.js",
+      "require": "./dist/index.cjs.js"
+    },
+    "./style.css": {
+      "import": "./dist/style.css",
+      "require": "./dist/style.css"
+    }
+  },
+
+  "scripts": {
+    "build": "vite build",
+    "prepublishOnly": "npm run build",
+    "clean": "rm -rf dist",
+    "test": "echo \"No tests specified\" && exit 0"
+  },
+
+  "peerDependencies": {
+    "react": ">=18 <20",
+    "react-dom": ">=18 <20"
+  },
+
+  "dependencies": {
+    "clsx": "^2.1.1",
+    "framer-motion": "^12.38.0",
+    "tailwind-merge": "^3.5.0"
+  },
+
+  "devDependencies": {
+    "@types/react": "^18.2.14",
+    "@types/react-dom": "^18.2.7",
+    "@vitejs/plugin-react": "^5.1.1",
+    "autoprefixer": "^10.4.23",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^3.4.19",
+    "typescript": "~5.9.3",
+    "vite": "^7.2.4",
+    "vite-plugin-dts": "^4.5.4",
+    "vite-plugin-lib-inject-css": "^2.2.2"
+  },
+
+  "engines": {
+    "node": ">=16"
+  },
+
+  "publishConfig": {
+    "access": "public"
+  }
+}
