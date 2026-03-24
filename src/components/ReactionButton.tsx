@@ -1,11 +1,10 @@
 import { motion, LayoutGroup } from "framer-motion";
 import { useReaction } from "../hooks/useReaction";
 import ReactionMenu from "./ReactionMenu";
-import type {  IReactionButton } from "../lib/types";
+import type { IReactionButton } from "../lib/types";
 import { useRef, useId, useEffect } from "react";
 import clsx from "clsx";
 import { twMerge } from "tailwind-merge";
-
 
 export const ReactionButton = ({
   reactions,
@@ -85,10 +84,10 @@ export const ReactionButton = ({
     const displayReaction = selectedReaction || initialReaction;
 
     const textColorClass =
-      selectedReaction?.colorAfterReaction?.text || "ipr-text-gray-500";
+      selectedReaction?.colorAfterReaction?.text || "text-gray-500";
 
     const iconColorClass =
-      selectedReaction?.colorAfterReaction?.icon || "ipr-text-gray-500";
+      selectedReaction?.colorAfterReaction?.icon || "text-gray-500";
 
     switch (displayMode) {
       case "icon":
@@ -96,7 +95,7 @@ export const ReactionButton = ({
           <motion.span
             layoutId={`reaction-${instanceId}-${displayReaction.id}`}
             transition={{ type: "spring", stiffness: 500, damping: 30 }}
-            className={clsx("ipr-text-2xl", iconColorClass, classNames.icon)}
+            className={clsx("text-2xl", iconColorClass, classNames.icon)}
           >
             {displayReaction.icon}
           </motion.span>
@@ -107,7 +106,7 @@ export const ReactionButton = ({
           <motion.span
             transition={{ type: "spring", stiffness: 500, damping: 30 }}
             className={clsx(
-              "ipr-font-medium",
+              "font-medium",
               textColorClass,
               classNames.text
             )}
@@ -118,11 +117,11 @@ export const ReactionButton = ({
 
       case "both":
         return (
-          <span className="ipr-flex ipr-items-center ipr-gap-2">
+          <span className="flex items-center gap-2">
             <motion.span
               layoutId={`reaction-${instanceId}-${displayReaction.id}`}
               transition={{ type: "spring", stiffness: 500, damping: 30 }}
-              className={clsx("ipr-text-2xl", iconColorClass, classNames.icon)}
+              className={clsx("text-2xl", iconColorClass, classNames.icon)}
             >
               {displayReaction.icon}
             </motion.span>
@@ -130,7 +129,7 @@ export const ReactionButton = ({
             <motion.span
               transition={{ type: "spring", stiffness: 500, damping: 30 }}
               className={clsx(
-                "ipr-font-medium",
+                "font-medium",
                 textColorClass,
                 classNames.text
               )}
@@ -151,31 +150,31 @@ export const ReactionButton = ({
 
   const menuAlignClasses =
     align === "center"
-      ? "ipr-left-1/2 ipr--translate-x-1/2"
+      ? "left-1/2 -translate-x-1/2"
       : align === "end"
-      ? "ipr-right-0"
-      : "ipr-left-0";
+      ? "right-0"
+      : "left-0";
 
   const menuSideClasses =
     side === "bottom"
-      ? "ipr-absolute ipr-top-full ipr-mt-3"
-      : "ipr-absolute ipr-bottom-full ipr-mb-3";
+      ? "absolute top-full mt-3"
+      : "absolute bottom-full mb-3";
 
   const menuPositionClasses = clsx(
-    "ipr-z-20",
+    "z-20",
     menuSideClasses,
     menuAlignClasses
   );
 
   const menuWrapperClass = twMerge(
-    "ipr-bg-white ipr-z-20",
+    "bg-white z-20",
     classNames.menuWrapperClass
   );
 
   return (
     <LayoutGroup>
       <div
-        className="ipr-relative ipr-inline-block"
+        className="relative inline-block"
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
@@ -184,7 +183,7 @@ export const ReactionButton = ({
           onClick={handleClick}
           whileTap={shouldButtonAnimate ? { scale: 0.95 } : undefined}
           className={clsx(
-            "ipr-flex ipr-items-center ipr-gap-2 ipr-px-5 ipr-py-3 ipr-rounded-full ipr-border ipr-border-gray-300 ipr-bg-gray-100 ipr-text-gray-800 ipr-font-medium ipr-text-base ipr-transition-all ipr-duration-200 hover:ipr-bg-gray-200 disabled:ipr-cursor-not-allowed disabled:ipr-opacity-50",
+            "flex items-center gap-2 px-5 py-3 rounded-full border border-gray-300 bg-gray-100 text-gray-800 font-medium text-base transition-all duration-200 hover:bg-gray-200 disabled:cursor-not-allowed disabled:opacity-50",
             classNames.button
           )}
         >
@@ -213,7 +212,7 @@ export const ReactionButton = ({
                 enableTooltip={enableTooltip}
                 menuClass={classNames.menu}
                 menuIconClass={classNames.menuIcon}
-                menuItemClass={classNames.menuIcon}
+                menuItemClass={classNames.menuItem}
                 tooltipClass={classNames.tooltip}
                 animationEnabled={shouldMenuAnimate}
                 itemsAnimated={shouldItemsAnimate}

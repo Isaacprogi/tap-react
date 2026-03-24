@@ -1,9 +1,8 @@
 import { motion } from "framer-motion";
 import ReactionItem from "./ReactionItem";
-import type { iReactionMenu} from "../lib/types";
+import type { iReactionMenu } from "../lib/types";
 import { useState } from "react";
 import { twMerge } from "tailwind-merge";
-
 
 export default function ReactionMenu({
   reactions,
@@ -30,7 +29,7 @@ export default function ReactionMenu({
     >
       <div
         className={twMerge(
-          "ipr-flex ipr-gap-2 ipr-rounded-full ipr-py-2 ipr-px-4 ipr-shadow-md",
+          "flex gap-2 rounded-lg bg-white border shadow-lg py-2 px-4",
           menuClass
         )}
       >

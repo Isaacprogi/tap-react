@@ -44,6 +44,7 @@ export interface IReactionButton {
     menu: string;
     menuWrapperClass: string;
     menuIcon: string;
+    menuItem:string;
     tooltip?: string;
   };
 

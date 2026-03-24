@@ -51,8 +51,8 @@ export default function ReactionItem({
   const hoverText = reaction.label ?? reaction.id;
 
   const itemClass = mergeClass(
+    reaction.classNames?.menuItem,
     classNames.menuItem,
-    reaction.classNames?.menuItem
   );
 
   const iconClass = mergeClass(
@@ -80,7 +80,7 @@ export default function ReactionItem({
     : 1;
 
   return (
-    <div className="ipr-relative ipr-flex ipr-items-center ipr-justify-center ipr-shrink-0">
+    <div className="relative flex items-center justify-center shrink-0">
       <AnimatePresence>
         {enableTooltip && isHovered && (
           <motion.div
@@ -99,10 +99,10 @@ export default function ReactionItem({
                 : undefined
             }
             className={mergeClass(
-              `ipr-absolute ipr--top-10 ipr-z-50
-               ipr-px-2 ipr-py-1 ipr-text-xs ipr-text-white ipr-bg-gray-800
-               ipr-rounded-md ipr-whitespace-nowrap ipr-shadow-lg
-               ipr-pointer-events-none`,
+              `absolute -top-10 z-50
+               px-2 py-1 text-xs text-white bg-gray-800
+               rounded-md whitespace-nowrap shadow-lg
+               pointer-events-none`,
               tooltipClass
             )}
           >
@@ -116,7 +116,7 @@ export default function ReactionItem({
         onMouseLeave={() => setHoveredId(null)}
         onClick={() => onSelect(reaction.id)}
         className={mergeClass(
-          "ipr-text-5xl ipr-flex ipr-items-center ipr-justify-center ipr-bg-transparent ipr-border-none ipr-outline-none ipr-cursor-pointer",
+          "text-5xl flex items-center justify-center bg-transparent border-none outline-none cursor-pointer",
           itemClass
         )}
         animate={
