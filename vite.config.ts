@@ -7,13 +7,18 @@ import path from "path";
 export default defineConfig({
   plugins: [
     react({
-      jsxRuntime: "classic",
+      jsxRuntime: "automatic",
     }),
     dts({
       insertTypesEntry: true,
     }),
     libInjectCss(),
   ],
+
+  resolve: {
+    dedupe: ["react", "react-dom"],
+  },
+
   build: {
     lib: {
       entry: path.resolve(__dirname, "src/index.ts"),
@@ -21,9 +26,19 @@ export default defineConfig({
       formats: ["es", "cjs"],
       fileName: (format) => `index.${format}.js`,
     },
+
     cssCodeSplit: false,
+
     rollupOptions: {
-      external: ["react", "react-dom", "react-router-dom"],
+      external: [
+        "react",
+        "react-dom",
+        "react/jsx-runtime",
+        "react/jsx-dev-runtime",
+        "react-router-dom",
+        "framer-motion",
+      ],
+
       output: {
         globals: {
           react: "React",
@@ -33,6 +48,7 @@ export default defineConfig({
         assetFileNames: "style.css",
       },
     },
+
     minify: "terser",
     terserOptions: {
       compress: {
@@ -43,7 +59,8 @@ export default defineConfig({
       },
     },
   },
+
   css: {
-    postcss: './postcss.config.js', // Add this line
+    postcss: "./postcss.config.js",
   },
 });

@@ -5,8 +5,6 @@
   "author": "Isaac Anasonye",
   "license": "MIT",
 
-  "type": "module",
-
   "homepage": "https://github.com/Isaacprogi/tap-react#readme",
 
   "repository": {
@@ -48,6 +46,10 @@
     "dist"
   ],
 
+  "sideEffects": [
+    "**/*.css"
+  ],
+
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -66,36 +68,45 @@
     "clean": "rm -rf dist",
     "test": "echo \"No tests specified\" && exit 0"
   },
-
   "peerDependencies": {
-    "react": ">=18 <20",
-    "react-dom": ">=18 <20"
+    "react": "^18 || ^19",
+    "react-dom": "^18 || ^19",
+    "react-router-dom": ">=6",
+     "framer-motion": "^12"
   },
-
-  "dependencies": {
-    "clsx": "^2.1.1",
-    "framer-motion": "^12.38.0",
-    "tailwind-merge": "^3.5.0"
-  },
-
   "devDependencies": {
+    "@eslint/js": "^9.39.1",
+    "@types/d3": "^7.4.3",
+    "@types/node": "^24.10.4",
     "@types/react": "^18.2.14",
     "@types/react-dom": "^18.2.7",
     "@vitejs/plugin-react": "^5.1.1",
+    "ajv": "^8.17.1",
+    "ajv-formats": "^2.1.1",
     "autoprefixer": "^10.4.23",
+    "eslint": "^9.39.1",
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "eslint-plugin-react-refresh": "^0.4.24",
+    "globals": "^16.5.0",
     "postcss": "^8.5.6",
+    "postcss-prefix-selector": "^2.1.1",
+    "postcss-prefixwrap": "^1.57.2",
+    "react-d3-tree": "^3.6.6",
+    "react-icons": "^5.5.0",
     "tailwindcss": "^3.4.19",
+    "terser": "^5.44.1",
     "typescript": "~5.9.3",
+    "typescript-eslint": "^8.46.4",
     "vite": "^7.2.4",
     "vite-plugin-dts": "^4.5.4",
-    "vite-plugin-lib-inject-css": "^2.2.2"
+    "vite-plugin-lib-inject-css": "^2.2.2",
+    "framer-motion": "^12.38.0"
   },
-
   "engines": {
     "node": ">=16"
   },
-
-  "publishConfig": {
-    "access": "public"
+  "dependencies": {
+    "clsx": "^2.1.1",
+    "tailwind-merge": "^3.5.0"
   }
 }
