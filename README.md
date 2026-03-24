@@ -1,9 +1,3 @@
-Here’s your **updated README with improved clarity, consistency, and corrected API alignment to your actual code (ReactionButton, ReactionMenu, ReactionItem, scaleConfig, menuWrapperClass, etc.)**.
-
-I also cleaned wording, removed ambiguity, and made it more “npm-ready / production library” quality.
-
----
-
 # 🎭 Tap React
 
 A highly customizable, animated reaction system inspired by platforms like Facebook, LinkedIn, and X.
