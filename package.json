@@ -4,18 +4,14 @@
   "description": "A highly customizable animated reaction system for React (like Facebook, LinkedIn, and X reactions). Built with React, TypeScript, and Framer Motion.",
   "author": "Isaac Anasonye",
   "license": "MIT",
-
   "homepage": "https://github.com/Isaacprogi/tap-react#readme",
-
   "repository": {
     "type": "git",
     "url": "https://github.com/Isaacprogi/tap-react.git"
   },
-
   "bugs": {
     "url": "https://github.com/Isaacprogi/tap-react/issues"
   },
-
   "keywords": [
     "react",
     "react-component",
@@ -37,19 +33,15 @@
     "tailwindcss",
     "micro-interactions"
   ],
-
   "main": "dist/index.cjs.js",
   "module": "dist/index.es.js",
   "types": "dist/index.d.ts",
-
   "files": [
     "dist"
   ],
-
   "sideEffects": [
     "**/*.css"
   ],
-
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -61,7 +53,6 @@
       "require": "./dist/style.css"
     }
   },
-
   "scripts": {
     "build": "vite build",
     "prepublishOnly": "npm run build",
@@ -69,29 +60,26 @@
     "test": "echo \"No tests specified\" && exit 0"
   },
   "peerDependencies": {
+    "framer-motion": "^12",
     "react": "^18 || ^19",
     "react-dom": "^18 || ^19",
-    "react-router-dom": ">=6",
-     "framer-motion": "^12"
+    "react-router-dom": ">=6"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
-    "@types/d3": "^7.4.3",
     "@types/node": "^24.10.4",
     "@types/react": "^18.2.14",
     "@types/react-dom": "^18.2.7",
     "@vitejs/plugin-react": "^5.1.1",
-    "ajv": "^8.17.1",
-    "ajv-formats": "^2.1.1",
     "autoprefixer": "^10.4.23",
     "eslint": "^9.39.1",
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.4.24",
+    "framer-motion": "^12.38.0",
     "globals": "^16.5.0",
     "postcss": "^8.5.6",
     "postcss-prefix-selector": "^2.1.1",
     "postcss-prefixwrap": "^1.57.2",
-    "react-d3-tree": "^3.6.6",
     "react-icons": "^5.5.0",
     "tailwindcss": "^3.4.19",
     "terser": "^5.44.1",
@@ -99,8 +87,7 @@
     "typescript-eslint": "^8.46.4",
     "vite": "^7.2.4",
     "vite-plugin-dts": "^4.5.4",
-    "vite-plugin-lib-inject-css": "^2.2.2",
-    "framer-motion": "^12.38.0"
+    "vite-plugin-lib-inject-css": "^2.2.2"
   },
   "engines": {
     "node": ">=16"
