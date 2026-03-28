@@ -64,12 +64,6 @@ function App() {
 
 ---
 
-Got it — then you should explicitly label them as **demo-only / showcase presets** so users don’t treat them as production-ready APIs.
-
-Here’s a cleaner version that makes that very clear:
-
----
-
 ## 📦 Examples (Demo Presets Only)
 
 > These reaction groups are **for demonstration purposes only**.
