@@ -34,7 +34,7 @@ export default function ReactionItem({
       hoverScale: scaleConfig?.hoverScale ?? 1.25,
       shrinkFactor: scaleConfig?.shrinkFactor ?? 0.7,
       shouldShrink: scaleConfig?.shouldShrink ?? true,
-      scaleType: (scaleConfig?.scaleType ?? "up") as ScaleType,
+      scaleType: (scaleConfig?.scaleType ?? "center") as ScaleType,
     }),
     [scaleConfig],
   );
@@ -64,7 +64,7 @@ export default function ReactionItem({
 
   const handlePlaySound = () => {
   if (!soundConfig?.enabled) return;
-  
+
   if (soundConfig.playOn === "click") {
     playSound();
   }
@@ -78,7 +78,6 @@ export default function ReactionItem({
             initial={animated ? { opacity: 0, y: 10, scale: 0.9 } : undefined}
             animate={animated ? { opacity: 1, y: 0, scale: 1 } : undefined}
             exit={animated ? { opacity: 0, y: 10, scale: 0.9 } : undefined}
-            // If custom class exists, use only that. Otherwise, use default tooltip style.
             className={customTooltip || styles.tooltip}
           >
             {reaction.label ?? reaction.id}

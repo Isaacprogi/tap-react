@@ -64,49 +64,75 @@ function App() {
 
 ---
 
-## 📦 Pre-Built Reaction Groups
+Got it — then you should explicitly label them as **demo-only / showcase presets** so users don’t treat them as production-ready APIs.
 
-Tap React comes with 4 curated reaction packs, each designed for specific contexts:
+Here’s a cleaner version that makes that very clear:
 
-### 1. Social Reactions (LinkedIn/Facebook style)
-Perfect for personal content, social feeds, and community engagement.
+---
+
+## 📦 Examples (Demo Presets Only)
+
+> These reaction groups are **for demonstration purposes only**.
+> They are included to showcase different styles and use cases.
+> You can use them as inspiration or starting points, but they are **not meant as production constraints**.
+
+You can either:
+
+* Import them directly from `tap-react`
+* Or explore them in the `data/reactions.ts` file in the repository
+
+---
+
+### 1. Social Reactions (UI inspiration only)
+
+LinkedIn/Facebook-style interaction set for social feeds.
 
 ```tsx
-import { reactionGroups } from 'tap-react';
+import { reactionGroups } from "tap-react";
 
 <ReactionButton reactions={reactionGroups.socialReactions} />
 ```
 
-**Includes:** Like, Love, Clap, Funny, Celebrate
+Includes: Like, Love, Clap, Funny, Celebrate
 
-### 2. Insight Reactions (Medium/Dev.to style)
-Ideal for blogs, technical content, and knowledge sharing.
+---
+
+### 2. Insight Reactions (UI inspiration only)
+
+Medium/Dev.to-style reactions for content and articles.
 
 ```tsx
 <ReactionButton reactions={reactionGroups.insightReactions} />
 ```
 
-**Includes:** Star, Fire, Insightful, Rocket, Bold
+Includes: Star, Fire, Insightful, Rocket, Bold
 
-### 3. Feedback Reactions (Forum/Community style)
-Great for moderation, Q&A, and community feedback.
+---
+
+### 3. Feedback Reactions (UI inspiration only)
+
+Forum/community moderation-style reactions.
 
 ```tsx
 <ReactionButton reactions={reactionGroups.feedbackReactions} />
 ```
 
-**Includes:** Agree, Disagree, Important, Question, Flag
+Includes: Agree, Disagree, Important, Question, Flag
 
-### 4. Vibe Reactions (Discord/Casual style)
-Perfect for casual chat, mood tracking, and fun interactions.
+---
+
+### 4. Vibe Reactions (UI inspiration only)
+
+Casual/Discord-style expressive reactions.
 
 ```tsx
 <ReactionButton reactions={reactionGroups.vibeReactions} />
 ```
 
-**Includes:** Sparkle, Music, Global, Sun, Moon
-
 ---
+
+If you want, I can also help you add a **“Custom Reactions” section** after this so developers clearly understand how to define their own sets (which is usually what makes the library feel production-ready).
+
 
 ## 🎨 Styling Guide
 
@@ -160,6 +186,10 @@ Perfect for casual chat, mood tracking, and fun interactions.
     tooltip: "my-tooltip-style"     // Tooltips lose all defaults
   }}
 />
+
+MenuIcon style will also be overiddden by that from single reaction
+
+
 ```
 
 ### Per-Reaction Override Behavior
@@ -172,7 +202,6 @@ const reactions = [
     id: "like",
     label: "Like",
     icon: <HiOutlineHandThumbUp />,
-    // These override default menu item styling for THIS reaction only
     classNames: {
       menuItem: "custom-menu-item",  // Loses all default menu item styles
       menuIcon: "custom-icon",       // Loses all default icon styles
@@ -363,9 +392,7 @@ export default PostList;
 ---
 
 ## 🎮 Advanced Patterns
-Here's the updated section with clear differentiation between the sound effect configurations:
 
-```markdown
 ### 1. With Sound Effects
 
 Make reactions even more engaging with audio feedback. Tap React supports three different sound trigger modes:

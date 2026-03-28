@@ -107,6 +107,8 @@ export const ReactionButton = ({
       selectedReaction?.afterReactionClassNames?.icon ||
       (selectedReaction ? styles.textActive : styles.textDefault);
 
+      console.log(selectedReaction)
+
     switch (displayMode) {
       case "icon":
         return (
@@ -114,8 +116,8 @@ export const ReactionButton = ({
             layoutId={`reaction-${instanceId}-${displayReaction.id}`}
             transition={{ type: "spring", stiffness: 500, damping: 30 }}
             className={mergeClass(
-              classNames?.icon || styles.iconOnly,
-              afterIcon,
+              afterIcon ||
+              classNames?.icon
             )}
           >
             {displayReaction.icon}
@@ -127,8 +129,8 @@ export const ReactionButton = ({
           <motion.span
             transition={{ type: "spring", stiffness: 500, damping: 30 }}
             className={mergeClass(
-              classNames?.text || styles.textOnly,
-              afterText,
+              afterText ||
+              classNames?.text
             )}
           >
             {displayReaction.label}
@@ -142,8 +144,8 @@ export const ReactionButton = ({
               layoutId={`reaction-${instanceId}-${displayReaction.id}`}
               transition={{ type: "spring", stiffness: 500, damping: 30 }}
               className={mergeClass(
-                classNames?.icon || styles.bothIcon,
-                // afterIcon,
+                afterIcon ||
+                classNames?.icon
               )}
             >
               {displayReaction.icon}
@@ -151,8 +153,8 @@ export const ReactionButton = ({
             <motion.span
               transition={{ type: "spring", stiffness: 500, damping: 30 }}
               className={mergeClass(
-                classNames?.text || styles.bothText,
-                // afterText,
+                afterText ||
+                classNames?.text
               )}
             >
               {displayReaction.label}

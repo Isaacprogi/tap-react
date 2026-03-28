@@ -40,7 +40,7 @@ export interface IReactionButton {
     utils: { revert: () => void }
   ) => void;
 
-  disabled: boolean | undefined;
+  disabled?: boolean;
 
   currentReactionId: string;
   enableTooltip?: boolean;
