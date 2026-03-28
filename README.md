@@ -363,10 +363,64 @@ export default PostList;
 ---
 
 ## 🎮 Advanced Patterns
+Here's the updated section with clear differentiation between the sound effect configurations:
 
+```markdown
 ### 1. With Sound Effects
 
-Make reactions even more engaging with audio feedback:
+Make reactions even more engaging with audio feedback. Tap React supports three different sound trigger modes:
+
+#### 🎵 Sound Trigger Modes
+
+| Mode | Description | When Sound Plays |
+|------|-------------|------------------|
+| **`"click"`** | Automatic on reaction selection | Plays immediately when user clicks a reaction |
+| **`"hover"`** | Automatic on menu item hover | Plays when user hovers over reaction options |
+| **`"manual"`** | Full control over playback | You control when to play via the `playSound` callback |
+
+---
+
+#### Example 1: Click Mode (Automatic)
+
+Simplest setup - sound plays automatically when a reaction is selected:
+
+```tsx
+import likeSound from "./assets/sounds/like.mp3";
+import loveSound from "./assets/sounds/love.mp3";
+
+const reactions = [
+  { 
+    id: "like", 
+    label: "Like", 
+    icon: <HiOutlineHandThumbUp />,
+    sound: likeSound  // Plays automatically on click
+  },
+  { 
+    id: "love", 
+    label: "Love", 
+    icon: <HiHeart />,
+    sound: loveSound  // Different sound per reaction
+  },
+];
+
+<ReactionButton
+  reactions={reactions}
+  soundConfig={{
+    enabled: true,
+    playOn: "click"  // Auto-play on click
+  }}
+  onReactionSelect={(id, { revert }) => {
+    // Sound plays automatically before this callback
+    updateReaction(id).catch(() => revert());
+  }}
+/>
+```
+
+---
+
+#### Example 2: Hover Mode (Automatic)
+
+Great for preview feedback - sounds play when users explore options:
 
 ```tsx
 const reactions = [
@@ -374,25 +428,140 @@ const reactions = [
     id: "like", 
     label: "Like", 
     icon: <HiOutlineHandThumbUp />,
-    sound: "/sounds/like.mp3"  // Optional: per-reaction sound
+    sound: "/sounds/hover-like.mp3"  // Plays on hover
   },
-  // ... more reactions
+  { 
+    id: "love", 
+    label: "Love", 
+    icon: <HiHeart />,
+    sound: "/sounds/hover-love.mp3"
+  },
 ];
 
 <ReactionButton
   reactions={reactions}
   soundConfig={{
     enabled: true,
-    playOn: "click",  // or "hover" for hover sounds
-    onManualTrigger: (playSound) => {
-      // Custom sound handling logic
-      if (userPreferences.soundEnabled) {
-        playSound();
-      }
-    }
+    playOn: "hover"  // Auto-play when hovering menu items
   }}
 />
 ```
+
+---
+
+#### Example 3: Manual Mode (Full Control)
+
+Perfect for scenarios where you need conditional playback or want to sync sounds with API responses:
+
+```tsx
+import { useRef } from "react";
+import likeSound from "./assets/sounds/like.mp3";
+
+const reactions = [
+  { 
+    id: "like", 
+    label: "Like", 
+    icon: <HiOutlineHandThumbUp />,
+    sound: likeSound,
+  },
+];
+
+const PostCard = ({ post, onUpdate }) => {
+  const [loading, setLoading] = useState(false);
+  const playSoundRef = useRef<(() => void) | null>(null);
+
+  const handleReaction = async (id: string, { revert }: { revert: () => void }) => {
+    setLoading(true);
+    
+    try {
+      // Optimistic update - UI updates immediately
+      onUpdate(post.id, id);
+      
+      // Persist to backend
+      await fetch(`http://localhost:3000/posts/${post.id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ reactionId: id }),
+      });
+      
+      // ✅ Only play sound AFTER successful API call
+      playSoundRef.current?.();
+      
+    } catch (err) {
+      // ❌ Don't play sound on failure
+      console.error("Failed to update reaction:", err);
+      revert();
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <ReactionButton
+      reactions={reactions}
+      soundConfig={{
+        enabled: true,
+        playOn: "manual",  // Manual mode - you control playback
+        onManualTrigger: (playSound) => {
+          // Store the playSound function in ref
+          playSoundRef.current = playSound;
+        }
+      }}
+      onReactionSelect={handleReaction}
+    />
+  );
+};
+```
+
+---
+
+#### Why Use Manual Mode?
+
+Manual mode gives you complete control over when sounds play:
+
+```tsx
+// ✅ Play only on successful API response
+const handleReaction = async (id, { revert }) => {
+  try {
+    await saveReaction(id);
+    playSoundRef.current?.();  // Success sound
+  } catch {
+    revert();  // No sound on error
+  }
+};
+
+// ✅ Play with custom volume or effects
+const handleReaction = (id, { revert }) => {
+  if (userPreferences.soundEnabled) {
+    playSoundRef.current?.();  // Respect user preferences
+  }
+  updateReaction(id).catch(revert);
+};
+
+// ✅ Sync with other animations
+const handleReaction = async (id, { revert }) => {
+  await animateReactionIcon();  // Play animation first
+  playSoundRef.current?.();     // Then play sound
+  await updateReaction(id);
+};
+```
+
+---
+
+#### Sound Configuration Options
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `enabled` | `boolean` | `false` | Master switch for all sounds |
+| `playOn` | `"click" \| "hover" \| "manual"` | `"click"` | When to trigger sounds |
+| `onManualTrigger` | `(playSound) => void` | `undefined` | **Required when `playOn="manual"`** - Receives the play function |
+
+**Important Notes:**
+- `onManualTrigger` is **only called when `playOn="manual"`**
+- In manual mode, you must store the `playSound` callback and call it manually
+- Each reaction can have its own sound file via the `sound` property
+- Sounds won't play if `enabled: false` regardless of mode
+
 
 ### 2. With Analytics Tracking
 
