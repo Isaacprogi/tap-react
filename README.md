@@ -126,9 +126,6 @@ Casual/Discord-style expressive reactions.
 ---
 
 
-Here's the updated styling guide with the priority hierarchy clearly explained:
-
-```markdown
 ## 🎨 Styling Guide
 
 ### ⚠️ **IMPORTANT: ClassName Override Behavior**
