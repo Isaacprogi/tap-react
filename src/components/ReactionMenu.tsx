@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import ReactionItem from "./ReactionItem";
 import type { iReactionMenu } from "../lib/types";
 import { useState } from "react";
-import { twMerge } from "tailwind-merge";
+import styles from "../styles/ReactionMenu.module.css";
 
 export default function ReactionMenu({
   reactions,
@@ -14,6 +14,7 @@ export default function ReactionMenu({
   tooltipClass = "",
 
   enableTooltip = true,
+  soundConfig,
 
   animationEnabled = true,
   itemsAnimated = true,
@@ -28,10 +29,7 @@ export default function ReactionMenu({
       transition={{ type: "spring", stiffness: 200 }}
     >
       <div
-        className={twMerge(
-          "flex gap-2 rounded-lg bg-white border shadow-lg py-2 px-4",
-          menuClass
-        )}
+        className={menuClass || styles.menuContainer}
       >
         {reactions.map((reaction) => (
           <ReactionItem
@@ -48,6 +46,8 @@ export default function ReactionMenu({
               menuIcon: menuIconClass,
               tooltip: tooltipClass,
             }}
+            soundConfig={soundConfig
+            }
           />
         ))}
       </div>

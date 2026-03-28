@@ -1,30 +1,17 @@
 import { motion, AnimatePresence } from "framer-motion";
-import type { Reaction } from "../lib/types";
-import { mergeClass } from "../lib/utils";
+import type { IReactionItem } from "../lib/types";
+import { useMemo } from "react";
+import { useSound } from "../hooks/useSound";
+import styles from "../styles/ReactionItem.module.css";
+import { useRef } from "react";
 
-interface Props {
-  reaction: Reaction;
-  onSelect: (id: string) => void;
+const Y_MAP = {
+  up: -6,
+  down: 6,
+  center: 0,
+} as const;
 
-  hoveredId: string | null;
-  setHoveredId: (id: string | null) => void;
-
-  animated?: boolean;
-  enableTooltip?: boolean;
-
-  classNames?: {
-    menuItem?: string;
-    menuIcon?: string;
-    tooltip?: string;
-  };
-
-  scaleConfig?: {
-    hoverScale?: number;
-    shrinkFactor?: number;
-    shouldShrink?: boolean;
-    scaleType?: "up" | "down" | "center";
-  };
-}
+type ScaleType = keyof typeof Y_MAP;
 
 export default function ReactionItem({
   reaction,
@@ -35,106 +22,86 @@ export default function ReactionItem({
   animated = true,
   scaleConfig,
   classNames = {},
-}: Props) {
+  soundConfig
+}: IReactionItem) {
   const isHovered = hoveredId === reaction.id;
+   const timeoutRef = useRef<number | null>(null);
 
-  const {
-    hoverScale = 1.25,
-    shrinkFactor = 0.7,
-    shouldShrink = true,
-    scaleType = "up",
-  } = scaleConfig || {};
+  const { play: playSound } = useSound(reaction.sound, soundConfig?.enabled);
+
+  const config = useMemo(
+    () => ({
+      hoverScale: scaleConfig?.hoverScale ?? 1.25,
+      shrinkFactor: scaleConfig?.shrinkFactor ?? 0.7,
+      shouldShrink: scaleConfig?.shouldShrink ?? true,
+      scaleType: (scaleConfig?.scaleType ?? "up") as ScaleType,
+    }),
+    [scaleConfig],
+  );
 
   const shouldShrinkItem =
-    shouldShrink && hoveredId !== null && !isHovered;
+    config.shouldShrink && hoveredId !== null && !isHovered;
 
-  const hoverText = reaction.label ?? reaction.id;
-
-  const itemClass = mergeClass(
-    reaction.classNames?.menuItem,
-    classNames.menuItem,
-  );
-
-  const iconClass = mergeClass(
-    classNames.menuIcon,
-    reaction.classNames?.menuIcon
-  );
-
-  const tooltipClass = mergeClass(
-    classNames.tooltip,
-    reaction.classNames?.tooltip
-  );
-
-  const yMap = {
-    up: -6,
-    down: 6,
-    center: 0,
-  } as const;
-
-  const y = isHovered ? (yMap[scaleType] ?? 0) : 0;
-
+  const y = isHovered ? Y_MAP[config.scaleType] : 0;
   const scale = isHovered
-    ? hoverScale
+    ? config.hoverScale
     : shouldShrinkItem
-    ? shrinkFactor
-    : 1;
+      ? config.shrinkFactor
+      : 1;
+
+  const customTooltip = reaction.classNames?.tooltip ?? classNames.tooltip;
+  const customMenuItem = reaction.classNames?.menuItem ?? classNames.menuItem;
+  const customMenuIcon = reaction.classNames?.menuIcon ?? classNames.menuIcon;
+
+  const handleMouseEnter = () => {
+    setHoveredId(reaction.id)
+  if (timeoutRef.current) window.clearTimeout(timeoutRef.current);
+
+  if (soundConfig?.enabled && soundConfig.playOn === "hover") {
+    playSound();
+  }
+};
+
+  const handlePlaySound = () => {
+  if (!soundConfig?.enabled) return;
+  
+  if (soundConfig.playOn === "click") {
+    playSound();
+  }
+};
 
   return (
-    <div className="relative flex items-center justify-center shrink-0">
+    <div className={styles.container}>
       <AnimatePresence>
         {enableTooltip && isHovered && (
           <motion.div
-            initial={
-              animated ? { opacity: 0, y: 10, scale: 0.9 } : undefined
-            }
-            animate={
-              animated ? { opacity: 1, y: 0, scale: 1 } : undefined
-            }
-            exit={
-              animated ? { opacity: 0, y: 10, scale: 0.9 } : undefined
-            }
-            transition={
-              animated
-                ? { type: "spring", stiffness: 500, damping: 30 }
-                : undefined
-            }
-            className={mergeClass(
-              `absolute -top-10 z-50
-               px-2 py-1 text-xs text-white bg-gray-800
-               rounded-md whitespace-nowrap shadow-lg
-               pointer-events-none`,
-              tooltipClass
-            )}
+            initial={animated ? { opacity: 0, y: 10, scale: 0.9 } : undefined}
+            animate={animated ? { opacity: 1, y: 0, scale: 1 } : undefined}
+            exit={animated ? { opacity: 0, y: 10, scale: 0.9 } : undefined}
+            // If custom class exists, use only that. Otherwise, use default tooltip style.
+            className={customTooltip || styles.tooltip}
           >
-            {hoverText}
+            {reaction.label ?? reaction.id}
           </motion.div>
         )}
       </AnimatePresence>
 
       <motion.button
-        onMouseEnter={() => setHoveredId(reaction.id)}
+        onMouseEnter={handleMouseEnter}
         onMouseLeave={() => setHoveredId(null)}
-        onClick={() => onSelect(reaction.id)}
-        className={mergeClass(
-          "text-5xl flex items-center justify-center bg-transparent border-none outline-none cursor-pointer",
-          itemClass
-        )}
-        animate={
-          animated
-            ? {
-                scale,
-                y,
-              }
-            : undefined
-        }
+        onClick={() => {
+          onSelect(reaction.id);
+          handlePlaySound()
+        }}
+        className={customMenuItem || styles.menuItem}
+        animate={animated ? { scale, y } : undefined}
         whileTap={animated ? { scale: 1.1 } : undefined}
-        transition={
-          animated
-            ? { type: "spring", stiffness: 500, damping: 28 }
-            : undefined
-        }
+        transition={{ type: "spring", stiffness: 500, damping: 28 }}
       >
-        <motion.span className={mergeClass(iconClass)} layout>
+        <motion.span
+          className={customMenuIcon || styles.menuIcon}
+          layout
+        >
           {reaction.icon}
         </motion.span>
       </motion.button>

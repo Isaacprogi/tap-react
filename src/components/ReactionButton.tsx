@@ -3,8 +3,11 @@ import { useReaction } from "../hooks/useReaction";
 import ReactionMenu from "./ReactionMenu";
 import type { IReactionButton } from "../lib/types";
 import { useRef, useId, useEffect } from "react";
+import { mergeClass } from "../lib/utils";
+import { useSound } from "../hooks/useSound";
+import styles from "../styles/ReactionButton.module.css";
+import { useSoundMap } from "../lib/utils";
 import clsx from "clsx";
-import { twMerge } from "tailwind-merge";
 
 export const ReactionButton = ({
   reactions,
@@ -21,6 +24,7 @@ export const ReactionButton = ({
     items: true,
   },
   menuPosition,
+  soundConfig,
 }: IReactionButton) => {
   const {
     button: shouldButtonAnimate,
@@ -29,65 +33,79 @@ export const ReactionButton = ({
   } = animationConfig;
 
   const { side = "top", align = "start" } = menuPosition ?? {};
-
   const { selected, setSelected, open, setOpen } = useReaction();
-
   const instanceId = useId();
   const timeoutRef = useRef<number | null>(null);
 
+  const soundMap = useSoundMap(reactions, soundConfig?.enabled);
+
   const initialReaction =
     reactions.find((r) => r.id === currentReactionId) ?? reactions[0];
-
   const selectedReaction = reactions.find((r) => r.id === selected);
 
   useEffect(() => {
-    if (currentReactionId) {
-      setSelected(currentReactionId);
-    }
+    if (currentReactionId) setSelected(currentReactionId);
   }, [currentReactionId, setSelected]);
 
-  function handleMouseEnter() {
-    if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    setOpen(true);
-  }
-
-  function handleMouseLeave() {
+  const handleMouseLeave = () => {
     timeoutRef.current = window.setTimeout(() => setOpen(false), 160);
-  }
+  };
 
-  function createRevert(prev: string) {
-    return () => setSelected(prev);
-  }
+  const createRevert = (prev: string) => () => setSelected(prev);
 
-  function handleClick() {
+  const { play: playSound } = useSound(
+    reactions[0].sound,
+    soundConfig?.enabled,
+  );
+
+  const handleMouseEnter = () => {
+    if (timeoutRef.current) window.clearTimeout(timeoutRef.current);
+    setOpen(true);
+
+    if (soundConfig?.enabled && soundConfig.playOn === "hover") {
+      playSound();
+    }
+  };
+
+  const handleClick = () => {
     if (!initialReaction) return;
-
     const prev = selected || currentReactionId;
 
     if (selectedReaction) {
       setSelected("");
-      onReactionSelect?.("", {
-        revert: createRevert(prev),
-      });
+      onReactionSelect?.("", { revert: createRevert(prev) });
     } else {
+      if (soundConfig?.enabled && soundConfig.playOn === "click") {
+        soundMap[reactions[0].id]?.();
+      }
+
+      if (soundConfig?.playOn === "manual") {
+        soundConfig?.onManualTrigger?.(soundMap[reactions[0].id]);
+      }
+
       setSelected(reactions[0].id);
-      onReactionSelect?.(reactions[0].id, {
-        revert: createRevert(prev),
-      });
+      onReactionSelect?.(reactions[0].id, { revert: createRevert(prev) });
       setOpen(false);
     }
+  };
+
+  let afterButton = "";
+
+  if (selectedReaction) {
+    afterButton =
+      selectedReaction.afterReactionClassNames?.button || styles.buttonActive;
   }
 
   function renderContent() {
     if (!initialReaction) return null;
-
     const displayReaction = selectedReaction || initialReaction;
 
-    const textColorClass =
-      selectedReaction?.colorAfterReaction?.text || "text-gray-500";
-
-    const iconColorClass =
-      selectedReaction?.colorAfterReaction?.icon || "text-gray-500";
+    const afterText =
+      selectedReaction?.afterReactionClassNames?.text ||
+      (selectedReaction ? styles.textActive : styles.textDefault);
+    const afterIcon =
+      selectedReaction?.afterReactionClassNames?.icon ||
+      (selectedReaction ? styles.textActive : styles.textDefault);
 
     switch (displayMode) {
       case "icon":
@@ -95,7 +113,10 @@ export const ReactionButton = ({
           <motion.span
             layoutId={`reaction-${instanceId}-${displayReaction.id}`}
             transition={{ type: "spring", stiffness: 500, damping: 30 }}
-            className={clsx("text-2xl", iconColorClass, classNames.icon)}
+            className={mergeClass(
+              classNames?.icon || styles.iconOnly,
+              afterIcon,
+            )}
           >
             {displayReaction.icon}
           </motion.span>
@@ -105,10 +126,9 @@ export const ReactionButton = ({
         return (
           <motion.span
             transition={{ type: "spring", stiffness: 500, damping: 30 }}
-            className={clsx(
-              "font-medium",
-              textColorClass,
-              classNames.text
+            className={mergeClass(
+              classNames?.text || styles.textOnly,
+              afterText,
             )}
           >
             {displayReaction.label}
@@ -117,21 +137,22 @@ export const ReactionButton = ({
 
       case "both":
         return (
-          <span className="flex items-center gap-2">
+          <span className={styles.bothWrapper}>
             <motion.span
               layoutId={`reaction-${instanceId}-${displayReaction.id}`}
               transition={{ type: "spring", stiffness: 500, damping: 30 }}
-              className={clsx("text-2xl", iconColorClass, classNames.icon)}
+              className={mergeClass(
+                classNames?.icon || styles.bothIcon,
+                afterIcon,
+              )}
             >
               {displayReaction.icon}
             </motion.span>
-
             <motion.span
               transition={{ type: "spring", stiffness: 500, damping: 30 }}
-              className={clsx(
-                "font-medium",
-                textColorClass,
-                classNames.text
+              className={mergeClass(
+                classNames?.text || styles.bothText,
+                afterText,
               )}
             >
               {displayReaction.label}
@@ -141,82 +162,76 @@ export const ReactionButton = ({
 
       default:
         return (
-          <span className={clsx(iconColorClass, classNames.icon)}>
+          <span className={mergeClass(classNames?.icon || afterIcon)}>
             {displayReaction.icon}
           </span>
         );
     }
   }
 
-  const menuAlignClasses =
+  const menuPositionClasses = mergeClass(
+    styles.menuContainer,
+    side === "bottom" ? styles.sideBottom : styles.sideTop,
     align === "center"
-      ? "left-1/2 -translate-x-1/2"
+      ? styles.alignCenter
       : align === "end"
-      ? "right-0"
-      : "left-0";
-
-  const menuSideClasses =
-    side === "bottom"
-      ? "absolute top-full mt-3"
-      : "absolute bottom-full mb-3";
-
-  const menuPositionClasses = clsx(
-    "z-20",
-    menuSideClasses,
-    menuAlignClasses
-  );
-
-  const menuWrapperClass = twMerge(
-    "bg-white z-20",
-    classNames.menuWrapperClass
+        ? styles.alignEnd
+        : styles.alignStart,
   );
 
   return (
     <LayoutGroup>
       <div
-        className="relative inline-block"
+        className={clsx(styles.container,'tap-root')}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
         <motion.button
           disabled={disabled}
           onClick={handleClick}
-          whileTap={shouldButtonAnimate ? { scale: 0.95 } : undefined}
-          className={clsx(
-            "flex items-center gap-2 px-5 py-3 rounded-full border border-gray-300 bg-gray-100 text-gray-800 font-medium text-base transition-all duration-200 hover:bg-gray-200 disabled:cursor-not-allowed disabled:opacity-50",
-            classNames.button
+          onMouseEnter={handleMouseEnter}
+          whileTap={shouldButtonAnimate ? { scale: 0.97 } : undefined}
+          whileHover={shouldButtonAnimate ? { scale: 1.02 } : undefined}
+          className={mergeClass(
+            selectedReaction &&
+              selectedReaction?.afterReactionClassNames?.button
+              ? afterButton
+              : classNames?.button
+                ? classNames.button
+                : styles.buttonBase,
           )}
         >
           {renderContent()}
         </motion.button>
 
-        {open && (
+        {open && !disabled && (
           <div
             className={menuPositionClasses}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
           >
-            <div className={menuWrapperClass}>
+            <div className={classNames?.menuWrapperClass || styles.menuWrapper}>
               <ReactionMenu
                 reactions={reactions}
                 onSelect={(id) => {
                   const prev = selected || currentReactionId;
-
                   setSelected(id);
-                  setOpen(false);
 
-                  onReactionSelect?.(id, {
-                    revert: createRevert(prev),
-                  });
+                  if (soundConfig?.playOn === "manual") {
+                    soundConfig.onManualTrigger?.(soundMap[id]);
+                  }
+                  setOpen(false);
+                  onReactionSelect?.(id, { revert: createRevert(prev) });
                 }}
                 enableTooltip={enableTooltip}
-                menuClass={classNames.menu}
-                menuIconClass={classNames.menuIcon}
-                menuItemClass={classNames.menuItem}
-                tooltipClass={classNames.tooltip}
+                menuClass={classNames?.menu}
+                menuIconClass={classNames?.menuIcon}
+                menuItemClass={classNames?.menuItem}
+                tooltipClass={classNames?.tooltip}
                 animationEnabled={shouldMenuAnimate}
                 itemsAnimated={shouldItemsAnimate}
                 scaleConfig={scaleConfig}
+                soundConfig={soundConfig}
               />
             </div>
           </div>

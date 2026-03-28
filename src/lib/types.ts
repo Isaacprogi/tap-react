@@ -2,6 +2,12 @@ import React from "react";
 
 export type DisplayMode = "icon" | "text" | "both";
 
+export interface SoundConfig {
+  enabled?: boolean;
+  playOn?: "hover" | "click" | "manual";
+  onManualTrigger?: (play: () => void) => void;
+}
+
 export interface Reaction {
   id: string;
   label: string;
@@ -11,15 +17,17 @@ export interface Reaction {
     menuIcon?: string;
     tooltip?: string;
   };
-  colorAfterReaction?:{
-    text:string
-    icon:string
-  }
+  afterReactionClassNames?: {
+  text?: string;
+  icon?: string;
+  button?: string;
+};
   animationConfig?: {
   button?: boolean;
   menu?: boolean;
   items?: boolean;
  }
+ sound?:string;
 }
 
 
@@ -32,19 +40,19 @@ export interface IReactionButton {
     utils: { revert: () => void }
   ) => void;
 
-  disabled: boolean;
+  disabled: boolean | undefined;
 
   currentReactionId: string;
   enableTooltip?: boolean;
 
-  classNames: {
-    button: string;
-    text: string;
-    icon: string;
-    menu: string;
-    menuWrapperClass: string;
-    menuIcon: string;
-    menuItem:string;
+  classNames?: {
+    button?: string;
+    text?: string;
+    icon?: string;
+    menu?: string;
+    menuWrapperClass?: string;
+    menuIcon?: string;
+    menuItem?:string;
     tooltip?: string;
   };
 
@@ -65,6 +73,7 @@ export interface IReactionButton {
     side?: "top" | "bottom";
     align?: "start" | "center" | "end";
   };
+   soundConfig?: SoundConfig
 }
 
 
@@ -87,10 +96,32 @@ export interface iReactionMenu {
     shouldShrink?: boolean;
     scaleType?: "up" | "down" | "center";
   };
+   soundConfig?: SoundConfig
 }
 
 
 
+
+export interface IReactionItem {
+  reaction: Reaction;
+  onSelect: (id: string) => void;
+  hoveredId: string | null;
+  setHoveredId: (id: string | null) => void;
+  animated?: boolean;
+   soundConfig?: SoundConfig
+  classNames?: {
+    menuItem?: string;
+    menuIcon?: string;
+    tooltip?: string;
+  };
+  scaleConfig?: {
+    hoverScale?: number;
+    shrinkFactor?: number;
+    shouldShrink?: boolean;
+    scaleType?: "up" | "down" | "center";
+  };
+  enableTooltip:boolean
+}
 
 
 
