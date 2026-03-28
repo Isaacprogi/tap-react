@@ -244,27 +244,8 @@ When overriding classes, ensure your custom styles include:
 | **menuWrapperClass** | `position: relative` |
 | **menuIcon** | `display: flex`, `align-items`, `justify-content`, `padding`, `border-radius` |
 | **tooltip** | `position: absolute`, `z-index`, `background`, `color`, `padding`, `border-radius`, `white-space: nowrap` |
-```
 
-The key additions:
-1. Clear priority hierarchy table showing Per-Reaction > Main Config > Defaults
-2. Visual example demonstrating per-reaction menuIcon overriding main config
-3. Concrete example showing main config + per-reaction interplay
-4. Simplified explanation without excessive text
 
-### Essential Styles Checklist
-
-When overriding classes, ensure your custom styles include:
-
-| Element | Required Styles |
-|---------|-----------------|
-| **button** | `display`, `position` (if needed), `padding`, `cursor`, `background`, `border`, `border-radius` |
-| **text** | `font-size`, `font-weight`, `color`, `line-height` |
-| **icon** | `font-size` or `width/height`, `display` (inline-flex for icons) |
-| **menu** | `position: absolute`, `z-index`, `background`, `border-radius`, `box-shadow`, `min-width` |
-| **menuWrapperClass** | `position: relative` (if menu positioning is needed) |
-| **menuIcon** | `display: flex`, `align-items: center`, `justify-content: center`, `padding`, `border-radius`, `transition` |
-| **tooltip** | `position: absolute`, `z-index`, `background`, `color`, `padding`, `border-radius`, `font-size`, `white-space: nowrap` |
 
 ---
 
