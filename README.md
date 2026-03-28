@@ -125,8 +125,6 @@ Casual/Discord-style expressive reactions.
 
 ---
 
-If you want, I can also help you add a **“Custom Reactions” section** after this so developers clearly understand how to define their own sets (which is usually what makes the library feel production-ready).
-
 
 ## 🎨 Styling Guide
 
