@@ -122,7 +122,7 @@ Perfect for casual chat, mood tracking, and fun interactions.
   }}
 />
 
-// ✅ You must provide all required styles
+// ✅ You must provide all necessary styles for each className
 <ReactionButton
   classNames={{
     button: "inline-flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors",
@@ -450,6 +450,44 @@ Fine-tune the feel of interactions:
 />
 ```
 
+### ⚠️ **IMPORTANT: Animation Config Note**
+
+**When any animation configuration is enabled, avoid adding custom CSS transitions to the elements being animated.** Adding CSS transitions alongside Framer Motion animations can lead to unexpected behavior, including:
+
+- Conflicting animation timings
+- Jittery or doubled animations
+- Performance issues
+- Layout shifts during animation
+
+```tsx
+// ❌ AVOID - CSS transitions with animationConfig enabled
+<ReactionButton
+  animationConfig={{ button: true, menu: true, items: true }}
+  classNames={{
+    button: "transition-all duration-300",  // This will conflict!
+    menuIcon: "transition-transform"       // This will conflict!
+  }}
+/>
+
+// ✅ CORRECT - Let Framer Motion handle animations
+<ReactionButton
+  animationConfig={{ button: true, menu: true, items: true }}
+  classNames={{
+    button: "",  // No transition CSS
+    menuIcon: "" // No transition CSS
+  }}
+/>
+
+// ✅ ALTERNATIVE - Disable animation config if you want CSS transitions
+<ReactionButton
+  animationConfig={{ button: false, menu: false, items: false }}
+  classNames={{
+    button: "transition-all duration-300",  // Now CSS transitions work
+    menuIcon: "transition-transform"       // Now CSS transitions work
+  }}
+/>
+```
+
 ---
 
 ## 📚 Complete API Reference
@@ -541,12 +579,12 @@ type Reaction = {
   reactions={reactionGroups.socialReactions}
   displayMode="both"
   classNames={{
-    button: "inline-flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-full hover:bg-gray-50 hover:border-gray-300 transition-all duration-200 shadow-sm",
+    button: "inline-flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-full hover:bg-gray-50 hover:border-gray-300 shadow-sm",
     text: "text-sm font-medium text-gray-700",
     icon: "text-xl",
     menu: "absolute bg-white rounded-2xl shadow-2xl border border-gray-100 p-2 min-w-[280px] z-50",
     menuWrapperClass: "relative",
-    menuIcon: "flex items-center justify-center w-10 h-10 rounded-full hover:bg-gray-100 transition-all duration-200 hover:scale-110",
+    menuIcon: "flex items-center justify-center w-10 h-10 rounded-full hover:bg-gray-100 hover:scale-110",
     tooltip: "absolute -top-8 left-1/2 -translate-x-1/2 bg-gray-800 text-white text-xs px-2 py-1 rounded-full whitespace-nowrap"
   }}
 />
@@ -559,9 +597,9 @@ type Reaction = {
   reactions={reactionGroups.insightReactions}
   displayMode="icon"
   classNames={{
-    button: "p-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors",
+    button: "p-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700",
     menu: "absolute bg-white dark:bg-gray-900 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 p-2 z-50",
-    menuIcon: "p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-gray-700 dark:text-gray-300",
+    menuIcon: "p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300",
     tooltip: "absolute -top-8 left-1/2 -translate-x-1/2 bg-gray-800 dark:bg-gray-700 text-white text-xs px-2 py-1 rounded whitespace-nowrap"
   }}
 />
@@ -576,7 +614,7 @@ type Reaction = {
   classNames={{
     button: "p-2 rounded-full bg-gray-100 active:bg-gray-200 touch-manipulation",
     menu: "absolute bottom-full mb-2 bg-white rounded-xl shadow-lg p-1.5 z-50",
-    menuIcon: "p-2.5 rounded-lg hover:bg-gray-100 transition-colors",
+    menuIcon: "p-2.5 rounded-lg hover:bg-gray-100",
     tooltip: "absolute -top-8 left-1/2 -translate-x-1/2 bg-gray-800 text-white text-xs px-2 py-1 rounded whitespace-nowrap"
   }}
   menuPosition={{ side: "top", align: "center" }}
@@ -590,12 +628,12 @@ type Reaction = {
   reactions={reactionGroups.socialReactions}
   displayMode="both"
   classNames={{
-    button: "relative inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-105 overflow-hidden",
+    button: "relative inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl overflow-hidden",
     text: "text-base font-medium",
     icon: "text-2xl",
     menu: "absolute bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl border border-gray-100 p-3 min-w-[200px] z-50",
     menuWrapperClass: "relative",
-    menuIcon: "flex items-center justify-center w-12 h-12 rounded-full hover:bg-gray-100 transition-all duration-200 hover:scale-110",
+    menuIcon: "flex items-center justify-center w-12 h-12 rounded-full hover:bg-gray-100 hover:scale-110",
     tooltip: "absolute -top-8 left-1/2 -translate-x-1/2 bg-gray-900 text-white text-xs px-2 py-1 rounded whitespace-nowrap"
   }}
 />
@@ -608,11 +646,11 @@ type Reaction = {
   reactions={reactionGroups.feedbackReactions}
   displayMode="both"
   classNames={{
-    button: "border-2 border-gray-300 hover:border-gray-400 rounded-lg px-4 py-2 bg-transparent transition-all",
+    button: "border-2 border-gray-300 hover:border-gray-400 rounded-lg px-4 py-2 bg-transparent",
     text: "text-gray-600 text-sm",
     icon: "text-xl",
     menu: "border border-gray-200 shadow-md bg-white rounded-lg p-2",
-    menuIcon: "p-2 rounded hover:bg-gray-50 transition-colors"
+    menuIcon: "p-2 rounded hover:bg-gray-50"
   }}
 />
 ```
@@ -629,42 +667,22 @@ Begin with minimal overrides and gradually add styles:
 classNames={{ button: "rounded-full px-4 py-2 bg-blue-500 text-white" }}
 
 // Step 2: Add hover effects
-classNames={{ button: "rounded-full px-4 py-2 bg-blue-500 text-white hover:bg-blue-600 transition" }}
+classNames={{ button: "rounded-full px-4 py-2 bg-blue-500 text-white hover:bg-blue-600" }}
 
 // Step 3: Style the menu
 classNames={{
-  button: "rounded-full px-4 py-2 bg-blue-500 text-white hover:bg-blue-600 transition",
+  button: "rounded-full px-4 py-2 bg-blue-500 text-white hover:bg-blue-600",
   menu: "bg-white rounded-xl shadow-lg p-2"
 }}
 ```
 
-### 2. Use CSS Variables for Theming
 
-```css
-.tap-root {
-  --tap-button-bg: #f3f4f6;
-  --tap-button-hover-bg: #e5e7eb;
-  --tap-button-radius: 0.5rem;
-  --tap-menu-bg: white;
-  --tap-menu-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-  --tap-icon-size: 1.5rem;
-}
-```
-
-```tsx
-classNames={{
-  button: "bg-[var(--tap-button-bg)] hover:bg-[var(--tap-button-hover-bg)] rounded-[var(--tap-button-radius)]",
-  icon: "text-[var(--tap-icon-size)]",
-  menu: "bg-[var(--tap-menu-bg)] shadow-[var(--tap-menu-shadow)]"
-}}
-```
-
-### 3. Create Reusable Style Presets
+### 2. Create Reusable Style Presets
 
 ```tsx
 const buttonPresets = {
   social: {
-    button: "rounded-full px-4 py-2 bg-gray-100 hover:bg-gray-200 transition",
+    button: "rounded-full px-4 py-2 bg-gray-100 hover:bg-gray-200",
     menu: "bg-white rounded-xl shadow-lg border p-2"
   },
   minimal: {
@@ -683,14 +701,13 @@ const buttonPresets = {
   }
 };
 
-// Usage
 <ReactionButton 
   reactions={reactions}
   classNames={buttonPresets.social}
 />
 ```
 
-### 4. Responsive Design Patterns
+### 3. Responsive Design Patterns
 
 ```tsx
 // Mobile-first, then desktop enhancements
@@ -701,7 +718,6 @@ classNames={{
   menu: "fixed sm:absolute bottom-0 sm:bottom-auto left-0 sm:left-auto w-full sm:w-auto"
 }}
 ```
-
 ---
 
 ## 🔧 Troubleshooting
@@ -720,6 +736,38 @@ classNames={{
 | **TypeScript errors** | Make sure you have React 18+ types installed |
 | **Sound not playing** | Check browser autoplay policies and ensure sound files are accessible |
 | **Menu not closing** | Check for CSS `pointer-events` or `z-index` conflicts |
+| **Double animations/jitter** | **Remove CSS transitions when `animationConfig` is enabled** |
+
+### Animation & Transition Conflicts
+
+**Critical:** When using Framer Motion animations, CSS transitions will conflict:
+
+```tsx
+// ❌ Problem: CSS transition + Framer Motion = jitter
+<ReactionButton
+  animationConfig={{ button: true }}
+  classNames={{
+    button: "transition-all duration-300"  // Remove this!
+  }}
+/>
+
+// ✅ Solution: Remove CSS transitions
+<ReactionButton
+  animationConfig={{ button: true }}
+  classNames={{
+    button: ""  // No transition CSS
+  }}
+/>
+
+// ✅ Alternative: Use CSS transitions only
+<ReactionButton
+  animationConfig={{ button: false, menu: false, items: false }}
+  classNames={{
+    button: "transition-all duration-300",  // Now this works
+    menuIcon: "transition-transform duration-200"
+  }}
+/>
+```
 
 ### Installation Troubleshooting
 
@@ -734,38 +782,6 @@ npm install
 # Check framer-motion version
 npm list framer-motion
 ```
-
----
-
-## 📦 Package Structure
-
-```
-tap-react/
-├── dist/                    # Compiled output
-│   ├── index.cjs.js        # CommonJS build
-│   ├── index.es.js         # ES Module build
-│   ├── index.d.ts          # TypeScript definitions
-│   └── style.css           # Default styles (if needed)
-├── src/
-│   ├── components/         # React components
-│   │   ├── ReactionButton.tsx
-│   │   ├── ReactionMenu.tsx
-│   │   └── ReactionItem.tsx
-│   ├── hooks/              # Custom React hooks
-│   │   ├── useReaction.ts
-│   │   └── useSound.ts
-│   ├── lib/                # Utilities and types
-│   │   ├── types.ts
-│   │   └── utils.ts
-│   └── styles/             # CSS modules
-│       ├── ReactionButton.module.css
-│       ├── ReactionMenu.module.css
-│       └── ReactionItem.module.css
-├── index.css               # Global styles
-└── package.json
-```
-
----
 
 ## 🎯 Use Cases
 
@@ -826,18 +842,6 @@ Rate products with expressive icons
 
 ---
 
-## 🧪 Browser Support
-
-| Browser | Version |
-|---------|---------|
-| Chrome | 90+ |
-| Firefox | 88+ |
-| Safari | 14+ |
-| Edge | 90+ |
-| iOS Safari | 14+ |
-| Android Chrome | 90+ |
-
----
 
 ## 🤝 Contributing
 
@@ -856,16 +860,6 @@ git clone https://github.com/Isaacprogi/tap-react.git
 cd tap-react
 npm install
 npm run dev
-```
-
-### Project Structure for Contributors
-
-```
-tap-react/
-├── src/                    # Source code
-├── example/                # Example app for testing
-├── tests/                  # Unit tests
-└── docs/                   # Documentation
 ```
 
 ---
@@ -901,21 +895,10 @@ MIT © Isaac Anasonye
 - **Peer Dependencies**: react, react-dom
 - **TypeScript**: Native support
 
----
-
-## 🚀 Roadmap
-
-- [ ] Accessibility improvements (ARIA labels, keyboard navigation)
-- [ ] Additional animation presets
-- [ ] Server-side rendering support
-- [ ] More pre-built reaction groups
-- [ ] Custom animation timelines
-- [ ] Gesture support (drag, swipe)
-- [ ] Analytics plugin
-- [ ] Theme builder tool
 
 ---
 
 **Made with ❤️ by Isaac Anasonye**
 
 *Transform your interactions. One reaction at a time.*
+```
