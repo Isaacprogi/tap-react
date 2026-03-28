@@ -143,7 +143,7 @@ export const ReactionButton = ({
               transition={{ type: "spring", stiffness: 500, damping: 30 }}
               className={mergeClass(
                 classNames?.icon || styles.bothIcon,
-                afterIcon,
+                // afterIcon,
               )}
             >
               {displayReaction.icon}
@@ -152,7 +152,7 @@ export const ReactionButton = ({
               transition={{ type: "spring", stiffness: 500, damping: 30 }}
               className={mergeClass(
                 classNames?.text || styles.bothText,
-                afterText,
+                // afterText,
               )}
             >
               {displayReaction.label}

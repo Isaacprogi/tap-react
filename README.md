@@ -450,9 +450,6 @@ const reactions = [
 ---
 
 #### Example 3: Manual Mode (Full Control)
-
-Perfect for scenarios where you need conditional playback or want to sync sounds with API responses:
-
 ```tsx
 import { useRef } from "react";
 import likeSound from "./assets/sounds/like.mp3";
@@ -538,12 +535,6 @@ const handleReaction = (id, { revert }) => {
   updateReaction(id).catch(revert);
 };
 
-// ✅ Sync with other animations
-const handleReaction = async (id, { revert }) => {
-  await animateReactionIcon();  // Play animation first
-  playSoundRef.current?.();     // Then play sound
-  await updateReaction(id);
-};
 ```
 
 ---
@@ -747,50 +738,20 @@ type Reaction = {
 <ReactionButton
   reactions={reactionGroups.socialReactions}
   displayMode="both"
-  classNames={{
+      classNames={{
     button: "inline-flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-full hover:bg-gray-50 hover:border-gray-300 shadow-sm",
     text: "text-sm font-medium text-gray-700",
     icon: "text-xl",
-    menu: "absolute bg-white rounded-2xl shadow-2xl border border-gray-100 p-2 min-w-[280px] z-50",
-    menuWrapperClass: "relative",
-    menuIcon: "flex items-center justify-center w-10 h-10 rounded-full hover:bg-gray-100 hover:scale-110",
-    tooltip: "absolute -top-8 left-1/2 -translate-x-1/2 bg-gray-800 text-white text-xs px-2 py-1 rounded-full whitespace-nowrap"
+    menu: "flex bg-white rounded-2xl shadow-2xl border border-gray-100 p-2 min-w-[280px] ",
+    menuWrapperClass: "z-[50] bg-white",
+    menuIcon: "flex items-center justify-center w-10 h-10 rounded-full hover:bg-gray-100",
+    tooltip: "absolute -top-8 bg-red-500 rounded-md p-1 text-white "
   }}
 />
 ```
 
-### Example 2: Dark Mode Compatible
 
-```tsx
-<ReactionButton
-  reactions={reactionGroups.insightReactions}
-  displayMode="icon"
-  classNames={{
-    button: "p-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700",
-    menu: "absolute bg-white dark:bg-gray-900 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 p-2 z-50",
-    menuIcon: "p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300",
-    tooltip: "absolute -top-8 left-1/2 -translate-x-1/2 bg-gray-800 dark:bg-gray-700 text-white text-xs px-2 py-1 rounded whitespace-nowrap"
-  }}
-/>
-```
-
-### Example 3: Compact Mobile-First Design
-
-```tsx
-<ReactionButton
-  reactions={reactionGroups.vibeReactions}
-  displayMode="icon"
-  classNames={{
-    button: "p-2 rounded-full bg-gray-100 active:bg-gray-200 touch-manipulation",
-    menu: "absolute bottom-full mb-2 bg-white rounded-xl shadow-lg p-1.5 z-50",
-    menuIcon: "p-2.5 rounded-lg hover:bg-gray-100",
-    tooltip: "absolute -top-8 left-1/2 -translate-x-1/2 bg-gray-800 text-white text-xs px-2 py-1 rounded whitespace-nowrap"
-  }}
-  menuPosition={{ side: "top", align: "center" }}
-/>
-```
-
-### Example 4: Gradient Button with Animation
+### Example 2: Gradient Button with Animation
 
 ```tsx
 <ReactionButton
@@ -800,10 +761,10 @@ type Reaction = {
     button: "relative inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl overflow-hidden",
     text: "text-base font-medium",
     icon: "text-2xl",
-    menu: "absolute bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl border border-gray-100 p-3 min-w-[200px] z-50",
-    menuWrapperClass: "relative",
+    menu: "bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl border border-gray-100 p-3 min-w-[200px] z-50",
+    menuWrapperClass: "relative z-[50]",
     menuIcon: "flex items-center justify-center w-12 h-12 rounded-full hover:bg-gray-100 hover:scale-110",
-    tooltip: "absolute -top-8 left-1/2 -translate-x-1/2 bg-gray-900 text-white text-xs px-2 py-1 rounded whitespace-nowrap"
+    tooltip: "absolute -top-8 bg-gray-900 text-white text-xs px-2 py-1 rounded whitespace-nowrap"
   }}
 />
 ```
@@ -826,86 +787,6 @@ type Reaction = {
 
 ---
 
-## 💡 Pro Tips
-
-### 1. Start Simple, Iterate Fast
-Begin with minimal overrides and gradually add styles:
-
-```tsx
-// Step 1: Basic button style
-classNames={{ button: "rounded-full px-4 py-2 bg-blue-500 text-white" }}
-
-// Step 2: Add hover effects
-classNames={{ button: "rounded-full px-4 py-2 bg-blue-500 text-white hover:bg-blue-600" }}
-
-// Step 3: Style the menu
-classNames={{
-  button: "rounded-full px-4 py-2 bg-blue-500 text-white hover:bg-blue-600",
-  menu: "bg-white rounded-xl shadow-lg p-2"
-}}
-```
-
-
-### 2. Create Reusable Style Presets
-
-```tsx
-const buttonPresets = {
-  social: {
-    button: "rounded-full px-4 py-2 bg-gray-100 hover:bg-gray-200",
-    menu: "bg-white rounded-xl shadow-lg border p-2"
-  },
-  minimal: {
-    button: "border border-gray-300 rounded-lg px-4 py-2 hover:bg-gray-50",
-    menu: "bg-white border rounded-lg shadow-sm"
-  },
-  colorful: {
-    button: "bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg px-6 py-3 shadow-lg hover:shadow-xl",
-    menu: "bg-white rounded-xl shadow-2xl p-3"
-  },
-  dark: {
-    button: "bg-gray-800 text-white rounded-lg px-4 py-2 hover:bg-gray-700",
-    menu: "bg-gray-900 border-gray-700 rounded-lg shadow-xl p-2",
-    menuIcon: "text-gray-300 hover:bg-gray-800",
-    tooltip: "bg-gray-700 text-white"
-  }
-};
-
-<ReactionButton 
-  reactions={reactions}
-  classNames={buttonPresets.social}
-/>
-```
-
-### 3. Responsive Design Patterns
-
-```tsx
-// Mobile-first, then desktop enhancements
-classNames={{
-  button: "p-2 sm:px-4 sm:py-2 rounded-full sm:rounded-lg",
-  text: "hidden sm:inline-block",
-  icon: "text-lg sm:text-xl",
-  menu: "fixed sm:absolute bottom-0 sm:bottom-auto left-0 sm:left-auto w-full sm:w-auto"
-}}
-```
----
-
-## 🔧 Troubleshooting
-
-### Common Issues and Solutions
-
-| Issue | Solution |
-|-------|----------|
-| **Button loses all styling** | You overrode `button` class—add all required styles (padding, background, etc.) |
-| **Menu appears in wrong position** | Ensure `menuWrapperClass` has `position: relative` |
-| **Icons are too small/large** | Set `font-size` or explicit `width/height` on `icon` or `menuIcon` |
-| **Tooltips not showing** | Tooltips need `position: absolute`, `z-index`, and proper positioning |
-| **Hover effects missing** | Add `transition` property and hover states to your classes |
-| **Menu has no background** | Add `background-color` and `box-shadow` to menu class |
-| **Animations not working** | Ensure `framer-motion` is installed and version 12+ |
-| **TypeScript errors** | Make sure you have React 18+ types installed |
-| **Sound not playing** | Check browser autoplay policies and ensure sound files are accessible |
-| **Menu not closing** | Check for CSS `pointer-events` or `z-index` conflicts |
-| **Double animations/jitter** | **Remove CSS transitions when `animationConfig` is enabled** |
 
 ### Animation & Transition Conflicts
 
@@ -936,20 +817,6 @@ classNames={{
     menuIcon: "transition-transform duration-200"
   }}
 />
-```
-
-### Installation Troubleshooting
-
-```bash
-# Clear npm cache
-npm cache clean --force
-
-# Reinstall dependencies
-rm -rf node_modules package-lock.json
-npm install
-
-# Check framer-motion version
-npm list framer-motion
 ```
 
 ## 🎯 Use Cases
@@ -1022,14 +889,6 @@ We believe great tools are built together. Here's how you can contribute:
 4. **Update documentation** to help others
 5. **Submit a pull request** with clear description
 
-### Development Setup
-
-```bash
-git clone https://github.com/Isaacprogi/tap-react.git
-cd tap-react
-npm install
-npm run dev
-```
 
 ---
 
@@ -1051,19 +910,6 @@ MIT © Isaac Anasonye
 
 - **Issues**: [GitHub Issues](https://github.com/Isaacprogi/tap-react/issues)
 - **Discussions**: [GitHub Discussions](https://github.com/Isaacprogi/tap-react/discussions)
-- **Documentation**: [tap-react.dev](https://tap-react.dev) *(coming soon)*
-- **Twitter**: [@tap_react](https://twitter.com/tap_react) *(coming soon)*
-
----
-
-## 📊 Package Metrics
-
-- **Bundle Size**: ~8KB (minified + gzipped)
-- **Tree Shakable**: Yes
-- **Dependencies**: framer-motion, clsx
-- **Peer Dependencies**: react, react-dom
-- **TypeScript**: Native support
-
 
 ---
 
