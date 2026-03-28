@@ -212,7 +212,7 @@ export const ReactionButton = ({
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
           >
-            <div className={classNames?.menuWrapperClass || styles.menuWrapper}>
+            <div className={classNames?.menuWrapper || styles.menuWrapper}>
               <ReactionMenu
                 reactions={reactions}
                 onSelect={(id) => {

@@ -1,4 +1,4 @@
-# 🎭 Tap React
+# Tap React
 
 **Tap, React, Engage.** A beautifully animated reaction system that transforms static interactions into delightful moments.
 
@@ -7,15 +7,30 @@
 
 ---
 
-## ✨ The Story
+## Overview
 
-Imagine building a social feed where every reaction feels alive—where users don't just click buttons, but experience joy. That's what Tap React delivers. Whether it's a heartfelt ❤️ on a friend's photo, a thoughtful 💡 on a technical article, or a celebratory 🎉 on a milestone, Tap React makes every interaction memorable.
-
-Built with **React**, **TypeScript**, and **Framer Motion**, this component brings the polish of Facebook, LinkedIn, and Medium reactions to your application with zero compromise on customization.
+Tap React brings the polish of Facebook, LinkedIn, and Medium reactions to your application — built with **React**, **TypeScript**, and **Framer Motion**. Whether it's a heartfelt ❤️ on a friend's photo, a thoughtful 💡 on an article, or a celebratory 🎉 on a milestone, every interaction feels alive.
 
 ---
 
-## 🚀 Quick Start
+## Features
+
+| Feature | Description |
+|---------|-------------|
+| 🎯 Smart State Management | Controlled and uncontrolled modes with optimistic updates |
+| ⚡ Buttery Animations | Spring-powered micro-interactions that feel natural |
+| 🎨 Pixel-Perfect Customization | Style every element — button, menu, icons, tooltips |
+| 📍 Smart Positioning | Menu appears exactly where users expect (top/bottom, start/center/end) |
+| 🎭 Per-Reaction Personality | Individual styles, colors, and tooltips for each reaction |
+| 🔊 Sound Feedback | Optional audio cues for hover and click interactions |
+| 📱 Responsive by Design | Works beautifully on any screen size |
+| 🔄 Revert on Failure | Built-in optimistic UI with automatic rollback |
+| 💪 Type-Safe | Full TypeScript support with intelligent autocomplete |
+| 🎨 Zero Runtime CSS | Bring your own styles or use the defaults |
+
+---
+
+## Quick Start
 
 ```bash
 npm install framer-motion tap-react
@@ -47,39 +62,13 @@ function App() {
 
 ---
 
-## 🌟 Features
+## Demo Presets
 
-| Feature | Description |
-|---------|-------------|
-| 🎯 **Smart State Management** | Controlled + uncontrolled modes with optimistic updates |
-| ⚡ **Buttery Animations** | Spring-powered micro-interactions that feel natural |
-| 🎨 **Pixel-Perfect Customization** | Style every element—button, menu, icons, tooltips |
-| 📍 **Smart Positioning** | Menu appears exactly where users expect (top/bottom, start/center/end) |
-| 🎭 **Per-Reaction Personality** | Individual styles, colors, and tooltips for each reaction |
-| 🔊 **Sound Feedback** | Optional audio cues for hover and click interactions |
-| 📱 **Responsive by Design** | Works beautifully on any screen size |
-| 🔄 **Revert on Failure** | Built-in optimistic UI with automatic rollback |
-| 💪 **Type-Safe** | Full TypeScript support with intelligent autocomplete |
-| 🎨 **Zero Runtime CSS** | Bring your own styles or use our defaults |
+> These reaction groups are **for demonstration purposes only** — they showcase different styles and use cases. Use them as inspiration or import them directly.
 
----
+### Social Reactions
 
-## 📦 Examples (Demo Presets Only)
-
-> These reaction groups are **for demonstration purposes only**.
-> They are included to showcase different styles and use cases.
-> You can use them as inspiration or starting points, but they are **not meant as production constraints**.
-
-You can either:
-
-* Import them directly from `tap-react`
-* Or explore them in the `data/reactions.ts` file in the repository
-
----
-
-### 1. Social Reactions (UI inspiration only)
-
-LinkedIn/Facebook-style interaction set for social feeds.
+LinkedIn/Facebook-style interaction set for social feeds. Includes: Like, Love, Clap, Funny, Celebrate.
 
 ```tsx
 import { reactionGroups } from "tap-react";
@@ -87,35 +76,23 @@ import { reactionGroups } from "tap-react";
 <ReactionButton reactions={reactionGroups.socialReactions} />
 ```
 
-Includes: Like, Love, Clap, Funny, Celebrate
+### Insight Reactions
 
----
-
-### 2. Insight Reactions (UI inspiration only)
-
-Medium/Dev.to-style reactions for content and articles.
+Medium/Dev.to-style reactions for content and articles. Includes: Star, Fire, Insightful, Rocket, Bold.
 
 ```tsx
 <ReactionButton reactions={reactionGroups.insightReactions} />
 ```
 
-Includes: Star, Fire, Insightful, Rocket, Bold
+### Feedback Reactions
 
----
-
-### 3. Feedback Reactions (UI inspiration only)
-
-Forum/community moderation-style reactions.
+Forum/community moderation-style reactions. Includes: Agree, Disagree, Important, Question, Flag.
 
 ```tsx
 <ReactionButton reactions={reactionGroups.feedbackReactions} />
 ```
 
-Includes: Agree, Disagree, Important, Question, Flag
-
----
-
-### 4. Vibe Reactions (UI inspiration only)
+### Vibe Reactions
 
 Casual/Discord-style expressive reactions.
 
@@ -125,53 +102,47 @@ Casual/Discord-style expressive reactions.
 
 ---
 
+## Styling
 
-## 🎨 Styling Guide
+### ⚠️ Important: className Override Behavior
 
-### ⚠️ **IMPORTANT: ClassName Override Behavior**
-
-**When you provide any `className` prop, it COMPLETELY OVERRIDES the default styling**—it doesn't merge or extend. This gives you full control but also means you must provide all necessary styles (layout, spacing, colors, etc.) yourself.
+**When you provide any `className` prop, it completely replaces the default styling** — it does not merge or extend. You must provide all necessary styles yourself.
 
 ```tsx
-// ❌ This will lose all default button styling (padding, background, etc.)
+// ❌ This will lose all default button styling
 <ReactionButton
   classNames={{
-    button: "my-custom-class"  // Only "my-custom-class" applies, no default styles
+    button: "my-custom-class"
   }}
 />
 
-// ✅ You must provide all necessary styles for each className
+// ✅ Provide all necessary styles for each element
 <ReactionButton
   classNames={{
     button: "inline-flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg",
     text: "text-sm font-medium text-gray-700",
     icon: "text-xl",
     menu: "absolute bg-white rounded-xl shadow-lg border p-2 min-w-[200px] z-50",
-    menuWrapperClass: "relative",
+    menuWrapper: "relative",
+    menuItem: "flex items-center gap-2 rounded-lg hover:bg-gray-50",
     menuIcon: "flex items-center justify-center w-10 h-10 rounded-lg hover:bg-gray-100",
     tooltip: "absolute -top-8 left-1/2 -translate-x-1/2 bg-gray-900 text-white text-xs px-2 py-1 rounded whitespace-nowrap"
   }}
 />
 ```
 
-### Styling Priority Hierarchy
+### Style Priority
 
 Styles cascade from most specific to most general:
 
 ```
-Priority: Per-Reaction > Main Config > Defaults
+Per-Reaction styles  →  Main Config  →  Defaults
+     (highest)                           (lowest)
 ```
 
-| Level | Source | When Applied |
-|-------|--------|--------------|
-| **1 (Highest)** | Per-reaction `classNames` | Always overrides main config and defaults |
-| **2** | Main component `classNames` | Applied when per-reaction doesn't specify |
-| **3 (Lowest)** | Package defaults | Only when no custom classes provided |
-
 ```tsx
-// Main config styles
 const mainClassNames = {
-  menuIcon: "w-10 h-10 rounded-lg bg-gray-100",  // Base for all reactions
+  menuIcon: "w-10 h-10 rounded-lg bg-gray-100",
   menuItem: "p-2 rounded-md"
 };
 
@@ -181,623 +152,58 @@ const reactions = [
     label: "Like",
     icon: <HiHeart />,
     classNames: {
-      menuIcon: "bg-red-100 text-red-500",  // ⚡ Wins! Overrides main config
-      // menuItem not specified → uses main config styles
+      menuIcon: "bg-red-100 text-red-500",  // Overrides main config
+      // menuItem not specified → falls back to main config
     }
   },
   {
     id: "love",
     label: "Love",
     icon: <HiHeart />
-    // No per-reaction styles → uses main config for all
+    // No per-reaction styles → main config applies
   }
 ];
 
-<ReactionButton
-  reactions={reactions}
-  classNames={mainClassNames}
-/>
+<ReactionButton reactions={reactions} classNames={mainClassNames} />
 ```
 
-### Override Examples
+### Required Styles per Element
 
-**Level 1: No custom classes** → uses package defaults
-```tsx
-<ReactionButton reactions={reactions} />
-```
-
-**Level 2: Main config only** → overrides defaults for specified elements
-```tsx
-<ReactionButton 
-  reactions={reactions}
-  classNames={{ button: "my-button-style" }}
-/>
-// Button uses "my-button-style", all other elements use defaults
-```
-
-**Level 3: Main + Per-reaction** → per-reaction wins for its elements
-```tsx
-<ReactionButton 
-  reactions={reactions}
-  classNames={{
-    menuIcon: "w-10 h-10 rounded-lg",     // Base style
-    menuItem: "p-2 hover:bg-gray-100"
-  }}
-/>
-// Per-reaction menuIcon overrides main menuIcon
-// Per-reaction menuItem overrides main menuItem if specified
-```
-
-### Essential Styles Checklist
-
-When overriding classes, ensure your custom styles include:
+When overriding, ensure your custom styles include these essential properties:
 
 | Element | Required Styles |
 |---------|-----------------|
-| **button** | `display`, `padding`, `cursor`, `background`, `border-radius` |
-| **text** | `font-size`, `font-weight`, `color` |
-| **icon** | `font-size` or `width/height` |
-| **menu** | `position: absolute`, `z-index`, `background`, `box-shadow`, `min-width` |
-| **menuWrapperClass** | `position: relative` |
-| **menuIcon** | `display: flex`, `align-items`, `justify-content`, `padding`, `border-radius` |
-| **tooltip** | `position: absolute`, `z-index`, `background`, `color`, `padding`, `border-radius`, `white-space: nowrap` |
-
-
-
----
-
-## 🎬 Real-World Example: Social Feed with JSON Server
-
-Let's build a complete social feed where reactions persist and feel alive.
-
-### Step 1: Set Up JSON Server
-
-```bash
-npm install -g json-server
-```
-
-Create `db.json`:
-```json
-{
-  "posts": [
-    {
-      "id": "1",
-      "author": "Sarah Johnson",
-      "content": "Just launched my new portfolio! 🚀 Check it out at sarah.dev",
-      "reactionId": "love"
-    },
-    {
-      "id": "2",
-      "author": "Mike Chen",
-      "content": "React 19 is out! The new compiler features are game-changing 🔥",
-      "reactionId": ""
-    },
-    {
-      "id": "3",
-      "author": "Emma Watson",
-      "content": "Beautiful sunset today in Barcelona 🌅",
-      "reactionId": "like"
-    }
-  ]
-}
-```
-
-Start the server:
-```bash
-json-server --watch db.json --port 3000
-```
-
-### Step 2: Build the Feed Component
-
-```tsx
-import { useEffect, useState } from "react";
-import { ReactionButton, reactionGroups } from 'tap-react';
-
-type Post = {
-  id: string;
-  author: string;
-  content: string;
-  reactionId: string;
-};
-
-const PostCard = ({ post, onUpdate }: { 
-  post: Post; 
-  onUpdate: (id: string, reactionId: string) => void;
-}) => {
-  const [loading, setLoading] = useState(false);
-
-  const handleReaction = async (id: string, { revert }: { revert: () => void }) => {
-    setLoading(true);
-    
-    try {
-      // Optimistic update - UI updates immediately
-      onUpdate(post.id, id);
-      
-      // Persist to backend
-      await fetch(`http://localhost:3000/posts/${post.id}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ reactionId: id }),
-      });
-    } catch (err) {
-      // Rollback if API fails
-      revert();
-      console.error("Failed to save reaction:", err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  return (
-    <div className="bg-white rounded-xl shadow-sm border p-4 hover:shadow-md transition">
-      <div className="flex justify-between items-start mb-2">
-        <h3 className="font-semibold text-gray-800">{post.author}</h3>
-        <span className="text-xs text-gray-400">Just now</span>
-      </div>
-      <p className="text-gray-600 mb-3">{post.content}</p>
-      
-      <ReactionButton
-        displayMode="both"
-        currentReactionId={post.reactionId}
-        disabled={loading}
-        reactions={reactionGroups.socialReactions}
-        onReactionSelect={handleReaction}
-        menuPosition={{ side: "top", align: "start" }}
-        scaleConfig={{
-          hoverScale: 1.6,
-          shrinkFactor: 0.7,
-          shouldShrink: true,
-          scaleType: "up"
-        }}
-        classNames={{
-          button: "rounded-xl px-4 py-2 bg-gray-50 hover:bg-gray-100 transition",
-          text: "text-sm font-medium",
-          icon: "text-xl",
-          menu: "bg-white shadow-xl border rounded-xl p-2",
-          menuIcon: "hover:scale-110 transition-transform"
-        }}
-      />
-    </div>
-  );
-};
-
-// PostList component with data fetching
-const PostList = () => {
-  const [posts, setPosts] = useState<Post[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    fetchPosts();
-  }, []);
-
-  const fetchPosts = async () => {
-    try {
-      const res = await fetch("http://localhost:3000/posts");
-      setPosts(await res.json());
-    } catch (error) {
-      console.error("Failed to fetch posts:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleUpdate = (id: string, reactionId: string) => {
-    setPosts(prev => prev.map(p => p.id === id ? { ...p, reactionId } : p));
-  };
-
-  if (loading) {
-    return <div className="space-y-4">Loading posts...</div>;
-  }
-
-  return (
-    <div className="space-y-4 max-w-xl mx-auto">
-      {posts.map(post => (
-        <PostCard key={post.id} post={post} onUpdate={handleUpdate} />
-      ))}
-    </div>
-  );
-};
-
-export default PostList;
-```
-
-### Why This Works
-
-- **Optimistic Updates**: Users see instant feedback, making the app feel snappy
-- **Automatic Rollback**: If the server fails, reactions revert seamlessly
-- **Loading States**: Buttons disable during API calls, preventing double-clicks
-- **Persistent State**: Refresh the page and reactions remain
-
----
-
-## 🎮 Advanced Patterns
-
-### 1. With Sound Effects
-
-Make reactions even more engaging with audio feedback. Tap React supports three different sound trigger modes:
-
-#### 🎵 Sound Trigger Modes
-
-| Mode | Description | When Sound Plays |
-|------|-------------|------------------|
-| **`"click"`** | Automatic on reaction selection | Plays immediately when user clicks a reaction |
-| **`"hover"`** | Automatic on menu item hover | Plays when user hovers over reaction options |
-| **`"manual"`** | Full control over playback | You control when to play via the `playSound` callback |
-
----
-
-#### Example 1: Click Mode (Automatic)
-
-Simplest setup - sound plays automatically when a reaction is selected:
-
-```tsx
-import likeSound from "./assets/sounds/like.mp3";
-import loveSound from "./assets/sounds/love.mp3";
-
-const reactions = [
-  { 
-    id: "like", 
-    label: "Like", 
-    icon: <HiOutlineHandThumbUp />,
-    sound: likeSound  // Plays automatically on click
-  },
-  { 
-    id: "love", 
-    label: "Love", 
-    icon: <HiHeart />,
-    sound: loveSound  // Different sound per reaction
-  },
-];
-
-<ReactionButton
-  reactions={reactions}
-  soundConfig={{
-    enabled: true,
-    playOn: "click"  // Auto-play on click
-  }}
-  onReactionSelect={(id, { revert }) => {
-    // Sound plays automatically before this callback
-    updateReaction(id).catch(() => revert());
-  }}
-/>
-```
-
----
-
-#### Example 2: Hover Mode (Automatic)
-
-Great for preview feedback - sounds play when users explore options:
-
-```tsx
-const reactions = [
-  { 
-    id: "like", 
-    label: "Like", 
-    icon: <HiOutlineHandThumbUp />,
-    sound: "/sounds/hover-like.mp3"  // Plays on hover
-  },
-  { 
-    id: "love", 
-    label: "Love", 
-    icon: <HiHeart />,
-    sound: "/sounds/hover-love.mp3"
-  },
-];
-
-<ReactionButton
-  reactions={reactions}
-  soundConfig={{
-    enabled: true,
-    playOn: "hover"  // Auto-play when hovering menu items
-  }}
-/>
-```
-
----
-
-#### Example 3: Manual Mode (Full Control)
-```tsx
-import { useRef } from "react";
-import likeSound from "./assets/sounds/like.mp3";
-
-const reactions = [
-  { 
-    id: "like", 
-    label: "Like", 
-    icon: <HiOutlineHandThumbUp />,
-    sound: likeSound,
-  },
-];
-
-const PostCard = ({ post, onUpdate }) => {
-  const [loading, setLoading] = useState(false);
-  const playSoundRef = useRef<(() => void) | null>(null);
-
-  const handleReaction = async (id: string, { revert }: { revert: () => void }) => {
-    setLoading(true);
-    
-    try {
-      // Optimistic update - UI updates immediately
-      onUpdate(post.id, id);
-      
-      // Persist to backend
-      await fetch(`http://localhost:3000/posts/${post.id}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ reactionId: id }),
-      });
-      
-      // ✅ Only play sound AFTER successful API call
-      playSoundRef.current?.();
-      
-    } catch (err) {
-      // ❌ Don't play sound on failure
-      console.error("Failed to update reaction:", err);
-      revert();
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  return (
-    <ReactionButton
-      reactions={reactions}
-      soundConfig={{
-        enabled: true,
-        playOn: "manual",  // Manual mode - you control playback
-        onManualTrigger: (playSound) => {
-          // Store the playSound function in ref
-          playSoundRef.current = playSound;
-        }
-      }}
-      onReactionSelect={handleReaction}
-    />
-  );
-};
-```
-
----
-
-#### Why Use Manual Mode?
-
-Manual mode gives you complete control over when sounds play:
-
-```tsx
-// ✅ Play only on successful API response
-const handleReaction = async (id, { revert }) => {
-  try {
-    await saveReaction(id);
-    playSoundRef.current?.();  // Success sound
-  } catch {
-    revert();  // No sound on error
-  }
-};
-
-// ✅ Play with custom volume or effects
-const handleReaction = (id, { revert }) => {
-  if (userPreferences.soundEnabled) {
-    playSoundRef.current?.();  // Respect user preferences
-  }
-  updateReaction(id).catch(revert);
-};
-
-```
-
----
-
-#### Sound Configuration Options
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `enabled` | `boolean` | `false` | Master switch for all sounds |
-| `playOn` | `"click" \| "hover" \| "manual"` | `"click"` | When to trigger sounds |
-| `onManualTrigger` | `(playSound) => void` | `undefined` | **Required when `playOn="manual"`** - Receives the play function |
-
-**Important Notes:**
-- `onManualTrigger` is **only called when `playOn="manual"`**
-- In manual mode, you must store the `playSound` callback and call it manually
-- Each reaction can have its own sound file via the `sound` property
-- Sounds won't play if `enabled: false` regardless of mode
-
-
-### 2. With Analytics Tracking
-
-Track user engagement:
-
-```tsx
-<ReactionButton
-  reactions={reactionGroups.socialReactions}
-  onReactionSelect={(id, { revert }) => {
-    // Track analytics
-    analytics.track('reaction', {
-      reactionId: id,
-      timestamp: Date.now(),
-      context: 'post_feed'
-    });
-    
-    // Your API call here
-    updateReaction(id).catch(() => revert());
-  }}
-/>
-```
-
-### 3. Conditional Display Modes
-
-Adapt to different contexts:
-
-```tsx
-// Mobile: icons only for compact space
-<ReactionButton displayMode="icon" />
-
-// Desktop: both for clarity
-<ReactionButton displayMode="both" />
-
-// Minimal: text only for accessibility
-<ReactionButton displayMode="text" />
-```
-
-### 4. Custom Animation Timing
-
-Fine-tune the feel of interactions:
-
-```tsx
-<ReactionButton
-  scaleConfig={{
-    hoverScale: 1.8,      // More dramatic hover
-    shrinkFactor: 0.5,    // Non-hovered items shrink more
-    shouldShrink: true,
-    scaleType: "center"   // Scale from center instead of top
-  }}
-  animationConfig={{
-    button: true,          // Button tap feedback
-    menu: true,           // Menu fade-in
-    items: true           // Individual item animations
-  }}
-/>
-```
-
-### ⚠️ **IMPORTANT: Animation Config Note**
-
-**When any animation configuration is enabled, avoid adding custom CSS transitions to the elements being animated.** Adding CSS transitions alongside Framer Motion animations can lead to unexpected behavior, including:
-
-- Conflicting animation timings
-- Jittery or doubled animations
-- Performance issues
-- Layout shifts during animation
-
-```tsx
-// ❌ AVOID - CSS transitions with animationConfig enabled
-<ReactionButton
-  animationConfig={{ button: true, menu: true, items: true }}
-  classNames={{
-    button: "transition-all duration-300",  // This will conflict!
-    menuIcon: "transition-transform"       // This will conflict!
-  }}
-/>
-
-// ✅ CORRECT - Let Framer Motion handle animations
-<ReactionButton
-  animationConfig={{ button: true, menu: true, items: true }}
-  classNames={{
-    button: "",  // No transition CSS
-    menuIcon: "" // No transition CSS
-  }}
-/>
-
-// ✅ ALTERNATIVE - Disable animation config if you want CSS transitions
-<ReactionButton
-  animationConfig={{ button: false, menu: false, items: false }}
-  classNames={{
-    button: "transition-all duration-300",  // Now CSS transitions work
-    menuIcon: "transition-transform"       // Now CSS transitions work
-  }}
-/>
-```
-
----
-
-## 📚 Complete API Reference
-
-### ReactionButton Props
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `reactions` | `Reaction[]` | **Required** | Array of reaction options |
-| `currentReactionId` | `string` | `""` | Currently selected reaction ID |
-| `disabled` | `boolean` | `false` | Disables all interactions |
-| `displayMode` | `"icon" \| "text" \| "both"` | `"icon"` | Button display style |
-| `onReactionSelect` | `(id: string, { revert }) => void` | **Required** | Callback when reaction changes |
-| `enableTooltip` | `boolean` | `true` | Show tooltips on hover |
-| `menuPosition` | `{ side, align }` | `{ side: "top", align: "start" }` | Menu positioning |
-| `scaleConfig` | `ScaleConfig` | See below | Animation scale behavior |
-| `animationConfig` | `AnimationConfig` | All `true` | Toggle specific animations |
-| `soundConfig` | `SoundConfig` | `undefined` | Sound effect configuration |
-| `classNames` | `ClassNames` | **Required** | Custom styling overrides |
-
-### ScaleConfig Object
-
-| Property | Type | Default | Description |
-|----------|------|---------|-------------|
-| `hoverScale` | `number` | `1.25` | Scale factor when hovering |
-| `shrinkFactor` | `number` | `0.7` | Scale factor for non-hovered items |
-| `shouldShrink` | `boolean` | `true` | Whether to shrink non-hovered items |
-| `scaleType` | `"up" \| "down" \| "center"` | `"up"` | Animation direction |
-
-### AnimationConfig Object
-
-| Property | Type | Default | Description |
-|----------|------|---------|-------------|
-| `button` | `boolean` | `true` | Enable button tap/hover animations |
-| `menu` | `boolean` | `true` | Enable menu entrance animation |
-| `items` | `boolean` | `true` | Enable individual reaction animations |
-
-### SoundConfig Object
-
-| Property | Type | Description |
-|----------|------|-------------|
-| `enabled` | `boolean` | Enable sound effects |
-| `playOn` | `"click" \| "hover" \| "manual"` | When to trigger sounds |
-| `onManualTrigger` | `(playSound) => void` | Custom sound handling for manual mode |
-
-### ClassNames Object
-
-| Property | Description | Required Styles |
-|----------|-------------|-----------------|
-| `button` | Main button container | `display`, `padding`, `cursor`, `background` |
-| `text` | Reaction text (when visible) | `font-size`, `font-weight`, `color` |
-| `icon` | Reaction icon (when visible) | `font-size` or `width/height` |
-| `menu` | Menu container | `position: absolute`, `z-index`, `background` |
-| `menuWrapperClass` | Menu wrapper for positioning | `position: relative` |
-| `menuIcon` | Individual reaction icons in menu | `display: flex`, `padding`, `border-radius` |
-| `tooltip` | Tooltip styling | `position: absolute`, `z-index`, `background`, `color` |
-
-### Reaction Type
-
-```ts
-type Reaction = {
-  id: string;                    // Unique identifier
-  label: string;                 // Display text
-  icon: React.ReactNode;         // React component (icon)
-  sound?: string;                // Optional sound file URL
-  
-  classNames?: {                 // Optional per-reaction styling
-    menuItem?: string;           // Styles for the menu item
-    menuIcon?: string;           // Styles for the icon in menu
-    tooltip?: string;            // Styles for the tooltip
-  };
-  
-  afterReactionClassNames?: {    // Styles when reaction is active
-    button?: string;             // Active button styles
-    text?: string;               // Active text styles
-    icon?: string;               // Active icon styles
-  };
-};
-```
-
----
-
-## 🎨 Complete Styling Examples
-
-### Example 1: Modern Social Media Style
+| `button` | `display`, `padding`, `cursor`, `background`, `border-radius` |
+| `text` | `font-size`, `font-weight`, `color` |
+| `icon` | `font-size` or `width/height` |
+| `menu` | `position: absolute`, `z-index`, `background`, `box-shadow`, `min-width` |
+| `menuWrapper` | `position: relative` |
+| `menuItem` | `display`, `align-items`, `padding`, `border-radius` |
+| `menuIcon` | `display: flex`, `align-items`, `justify-content`, `padding`, `border-radius` |
+| `tooltip` | `position: absolute`, `z-index`, `background`, `color`, `padding`, `border-radius`, `white-space: nowrap` |
+
+### Styling Examples
+
+**Modern Social Media Style**
 
 ```tsx
 <ReactionButton
   reactions={reactionGroups.socialReactions}
   displayMode="both"
-      classNames={{
+  classNames={{
     button: "inline-flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-full hover:bg-gray-50 hover:border-gray-300 shadow-sm",
     text: "text-sm font-medium text-gray-700",
     icon: "text-xl",
-    menu: "flex bg-white rounded-2xl shadow-2xl border border-gray-100 p-2 min-w-[280px] ",
-    menuWrapperClass: "z-[50] bg-white",
+    menu: "flex bg-white rounded-2xl shadow-2xl border border-gray-100 p-2 min-w-[280px]",
+    menuWrapper: "z-[50] bg-white",
+    menuItem: "flex items-center gap-2 rounded-xl hover:bg-gray-50",
     menuIcon: "flex items-center justify-center w-10 h-10 rounded-full hover:bg-gray-100",
-    tooltip: "absolute -top-8 bg-red-500 rounded-md p-1 text-white "
+    tooltip: "absolute -top-8 bg-red-500 rounded-md p-1 text-white"
   }}
 />
 ```
 
-
-### Example 2: Gradient Button with Animation
+**Gradient Button**
 
 ```tsx
 <ReactionButton
@@ -808,14 +214,15 @@ type Reaction = {
     text: "text-base font-medium",
     icon: "text-2xl",
     menu: "bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl border border-gray-100 p-3 min-w-[200px] z-50",
-    menuWrapperClass: "relative z-[50]",
+    menuWrapper: "relative z-[50]",
+    menuItem: "flex items-center gap-2 rounded-xl hover:bg-gray-50",
     menuIcon: "flex items-center justify-center w-12 h-12 rounded-full hover:bg-gray-100 hover:scale-110",
     tooltip: "absolute -top-8 bg-gray-900 text-white text-xs px-2 py-1 rounded whitespace-nowrap"
   }}
 />
 ```
 
-### Example 5: Minimalist Outline Design
+**Minimalist Outline**
 
 ```tsx
 <ReactionButton
@@ -833,133 +240,412 @@ type Reaction = {
 
 ---
 
+## Real-World Example: Social Feed with JSON Server
 
-### Animation & Transition Conflicts
+### Step 1: Set Up JSON Server
 
-**Critical:** When using Framer Motion animations, CSS transitions will conflict:
+```bash
+npm install -g json-server
+```
+
+Create `db.json`:
+
+```json
+{
+  "posts": [
+    { "id": "1", "author": "Sarah Johnson", "content": "Just launched my new portfolio! 🚀", "reactionId": "love" },
+    { "id": "2", "author": "Mike Chen", "content": "React 19 is out! 🔥", "reactionId": "" },
+    { "id": "3", "author": "Emma Watson", "content": "Beautiful sunset today in Barcelona 🌅", "reactionId": "like" }
+  ]
+}
+```
+
+```bash
+json-server --watch db.json --port 3000
+```
+
+### Step 2: Build the Feed Component
 
 ```tsx
-// ❌ Problem: CSS transition + Framer Motion = jitter
+import { useEffect, useState } from "react";
+import { ReactionButton, reactionGroups } from 'tap-react';
+
+type Post = {
+  id: string;
+  author: string;
+  content: string;
+  reactionId: string;
+};
+
+const PostCard = ({ post, onUpdate }: {
+  post: Post;
+  onUpdate: (id: string, reactionId: string) => void;
+}) => {
+  const [loading, setLoading] = useState(false);
+
+  const handleReaction = async (id: string, { revert }: { revert: () => void }) => {
+    setLoading(true);
+    try {
+      onUpdate(post.id, id); // Optimistic update
+
+      await fetch(`http://localhost:3000/posts/${post.id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ reactionId: id }),
+      });
+    } catch (err) {
+      revert(); // Rollback on failure
+      console.error("Failed to save reaction:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="bg-white rounded-xl shadow-sm border p-4 hover:shadow-md transition">
+      <div className="flex justify-between items-start mb-2">
+        <h3 className="font-semibold text-gray-800">{post.author}</h3>
+        <span className="text-xs text-gray-400">Just now</span>
+      </div>
+      <p className="text-gray-600 mb-3">{post.content}</p>
+
+      <ReactionButton
+        displayMode="both"
+        currentReactionId={post.reactionId}
+        disabled={loading}
+        reactions={reactionGroups.socialReactions}
+        onReactionSelect={handleReaction}
+        menuPosition={{ side: "top", align: "start" }}
+        scaleConfig={{ hoverScale: 1.6, shrinkFactor: 0.7, shouldShrink: true, scaleType: "up" }}
+        classNames={{
+          button: "rounded-xl px-4 py-2 bg-gray-50 hover:bg-gray-100 transition",
+          text: "text-sm font-medium",
+          icon: "text-xl",
+          menu: "bg-white shadow-xl border rounded-xl p-2",
+          menuIcon: "hover:scale-110 transition-transform"
+        }}
+      />
+    </div>
+  );
+};
+
+const PostList = () => {
+  const [posts, setPosts] = useState<Post[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => { fetchPosts(); }, []);
+
+  const fetchPosts = async () => {
+    try {
+      const res = await fetch("http://localhost:3000/posts");
+      setPosts(await res.json());
+    } catch (error) {
+      console.error("Failed to fetch posts:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleUpdate = (id: string, reactionId: string) => {
+    setPosts(prev => prev.map(p => p.id === id ? { ...p, reactionId } : p));
+  };
+
+  if (loading) return <div>Loading posts...</div>;
+
+  return (
+    <div className="space-y-4 max-w-xl mx-auto">
+      {posts.map(post => (
+        <PostCard key={post.id} post={post} onUpdate={handleUpdate} />
+      ))}
+    </div>
+  );
+};
+
+export default PostList;
+```
+
+This pattern gives you **optimistic updates** (instant feedback), **automatic rollback** on failure, **loading state protection** against double-clicks, and **persistent reactions** across page refreshes.
+
+---
+
+## Sound Effects
+
+Tap React supports three sound trigger modes:
+
+| Mode | Description |
+|------|-------------|
+| `"click"` | Sound plays automatically when a reaction is selected |
+| `"hover"` | Sound plays when hovering over reaction options |
+| `"manual"` | You control exactly when sound plays via a callback |
+
+### Click Mode
+
+```tsx
+const reactions = [
+  { id: "like", label: "Like", icon: <HiOutlineHandThumbUp />, sound: likeSound },
+  { id: "love", label: "Love", icon: <HiHeart />, sound: loveSound },
+];
+
 <ReactionButton
-  animationConfig={{ button: true }}
+  reactions={reactions}
+  soundConfig={{ enabled: true, playOn: "click" }}
+  onReactionSelect={(id, { revert }) => {
+    updateReaction(id).catch(() => revert());
+  }}
+/>
+```
+
+### Hover Mode
+
+```tsx
+<ReactionButton
+  reactions={reactions}
+  soundConfig={{ enabled: true, playOn: "hover" }}
+/>
+```
+
+### Manual Mode
+
+Manual mode gives you full control — play sound only after a successful API call, or conditionally based on user preferences.
+
+```tsx
+import { useRef } from "react";
+
+const PostCard = ({ post, onUpdate }) => {
+  const [loading, setLoading] = useState(false);
+  const playSoundRef = useRef<(() => void) | null>(null);
+
+  const handleReaction = async (id: string, { revert }: { revert: () => void }) => {
+    setLoading(true);
+    try {
+      onUpdate(post.id, id);
+
+      await fetch(`http://localhost:3000/posts/${post.id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ reactionId: id }),
+      });
+
+      playSoundRef.current?.(); // ✅ Only plays on success
+
+    } catch (err) {
+      console.error("Failed to update reaction:", err);
+      revert(); // ❌ No sound on failure
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <ReactionButton
+      reactions={reactions}
+      soundConfig={{
+        enabled: true,
+        playOn: "manual",
+        onManualTrigger: (playSound) => {
+          playSoundRef.current = playSound;
+        }
+      }}
+      onReactionSelect={handleReaction}
+    />
+  );
+};
+```
+
+---
+
+## Advanced Patterns
+
+### Analytics Tracking
+
+```tsx
+<ReactionButton
+  reactions={reactionGroups.socialReactions}
+  onReactionSelect={(id, { revert }) => {
+    analytics.track('reaction', {
+      reactionId: id,
+      timestamp: Date.now(),
+      context: 'post_feed'
+    });
+
+    updateReaction(id).catch(() => revert());
+  }}
+/>
+```
+
+### Conditional Display Modes
+
+```tsx
+<ReactionButton displayMode="icon" />   // Mobile: compact
+<ReactionButton displayMode="both" />   // Desktop: icon + label
+<ReactionButton displayMode="text" />   // Accessibility: text only
+```
+
+### Custom Animation Timing
+
+```tsx
+<ReactionButton
+  scaleConfig={{
+    hoverScale: 1.8,
+    shrinkFactor: 0.5,
+    shouldShrink: true,
+    scaleType: "center"
+  }}
+  animationConfig={{
+    button: true,
+    menu: true,
+    items: true
+  }}
+/>
+```
+
+### ⚠️ Animation and CSS Transition Conflicts
+
+When Framer Motion animations are enabled, **do not add CSS transitions to the same elements**. Mixing both causes jitter, doubled animations, and layout shifts.
+
+```tsx
+// ❌ Will conflict
+<ReactionButton
+  animationConfig={{ button: true, menu: true, items: true }}
   classNames={{
-    button: "transition-all duration-300"  // Remove this!
+    button: "transition-all duration-300",
+    menuIcon: "transition-transform"
   }}
 />
 
-// ✅ Solution: Remove CSS transitions
+// ✅ Let Framer Motion handle everything
 <ReactionButton
-  animationConfig={{ button: true }}
+  animationConfig={{ button: true, menu: true, items: true }}
   classNames={{
-    button: ""  // No transition CSS
+    button: "",
+    menuIcon: ""
   }}
 />
 
-// ✅ Alternative: Use CSS transitions only
+// ✅ Or disable Framer Motion and use CSS transitions
 <ReactionButton
   animationConfig={{ button: false, menu: false, items: false }}
   classNames={{
-    button: "transition-all duration-300",  // Now this works
+    button: "transition-all duration-300",
     menuIcon: "transition-transform duration-200"
   }}
 />
 ```
 
-## 🎯 Use Cases
+---
 
-### Social Media Feed
-Perfect for posts, comments, and user interactions
+## Use Cases
 
-```tsx
-<ReactionButton 
-  reactions={socialReactions} 
-  displayMode="both"
-  menuPosition={{ side: "top", align: "start" }}
-/>
-```
+| Context | Recommended Config |
+|---------|-------------------|
+| Social media feed | `reactions={socialReactions}` `displayMode="both"` `menuPosition={{ side: "top", align: "start" }}` |
+| Blog comments | `reactions={insightReactions}` `displayMode="icon"` `enableTooltip={true}` |
+| Product reviews | `reactions={feedbackReactions}` `displayMode="text"` `scaleConfig={{ hoverScale: 1.3 }}` |
+| Live chat | `reactions={vibeReactions}` `displayMode="icon"` `menuPosition={{ side: "top", align: "center" }}` |
+| E-commerce ratings | `reactions={ratingReactions}` `displayMode="both"` |
 
-### Blog Comments
-Encourage thoughtful engagement with insightful reactions
+---
 
-```tsx
-<ReactionButton 
-  reactions={insightReactions} 
-  displayMode="icon"
-  enableTooltip={true}
-/>
-```
+## API Reference
 
-### Product Reviews
-Let users express nuanced feedback
+### ReactionButton Props
 
-```tsx
-<ReactionButton 
-  reactions={feedbackReactions} 
-  displayMode="text"
-  scaleConfig={{ hoverScale: 1.3 }}
-/>
-```
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `reactions` | `Reaction[]` | **Required** | Array of reaction options |
+| `currentReactionId` | `string` | `""` | Currently selected reaction ID |
+| `disabled` | `boolean` | `false` | Disables all interactions |
+| `displayMode` | `"icon" \| "text" \| "both"` | `"icon"` | Button display style |
+| `onReactionSelect` | `(id: string, { revert }) => void` | **Required** | Callback when reaction changes |
+| `enableTooltip` | `boolean` | `true` | Show tooltips on hover |
+| `menuPosition` | `{ side, align }` | `{ side: "top", align: "start" }` | Menu positioning |
+| `scaleConfig` | `ScaleConfig` | See below | Animation scale behavior |
+| `animationConfig` | `AnimationConfig` | All `true` | Toggle specific animations |
+| `soundConfig` | `SoundConfig` | `undefined` | Sound effect configuration |
+| `classNames` | `ClassNames` | — | Custom styling overrides |
 
-### Live Chat
-Quick mood expressions in conversations
+### ScaleConfig
 
-```tsx
-<ReactionButton 
-  reactions={vibeReactions} 
-  displayMode="icon"
-  menuPosition={{ side: "top", align: "center" }}
-/>
-```
+| Property | Type | Default | Description |
+|----------|------|---------|-------------|
+| `hoverScale` | `number` | `1.25` | Scale factor when hovering |
+| `shrinkFactor` | `number` | `0.7` | Scale factor for non-hovered items |
+| `shouldShrink` | `boolean` | `true` | Whether to shrink non-hovered items |
+| `scaleType` | `"up" \| "down" \| "center"` | `"up"` | Animation direction |
 
-### E-commerce Ratings
-Rate products with expressive icons
+### AnimationConfig
 
-```tsx
-<ReactionButton 
-  reactions={ratingReactions}
-  displayMode="both"
-  onReactionSelect={(id) => submitRating(id)}
-/>
+| Property | Type | Default | Description |
+|----------|------|---------|-------------|
+| `button` | `boolean` | `true` | Enable button tap/hover animations |
+| `menu` | `boolean` | `true` | Enable menu entrance animation |
+| `items` | `boolean` | `true` | Enable individual reaction animations |
+
+### SoundConfig
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `enabled` | `boolean` | Enable sound effects |
+| `playOn` | `"click" \| "hover" \| "manual"` | When to trigger sounds |
+| `onManualTrigger` | `(playSound) => void` | Required when `playOn="manual"` — receives the play function |
+
+### ClassNames
+
+| Property | Description |
+|----------|-------------|
+| `button` | Main button container |
+| `text` | Reaction text when visible |
+| `icon` | Reaction icon when visible |
+| `menu` | Menu container |
+| `menuWrapper` | Wrapper element for positioning context |
+| `menuItem` | Individual reaction row in the menu |
+| `menuIcon` | Icon inside each menu item |
+| `tooltip` | Tooltip element |
+
+### Reaction Type
+
+```ts
+type Reaction = {
+  id: string;                 // Unique identifier
+  label: string;              // Display text
+  icon: React.ReactNode;      // React icon component
+  sound?: string;             // Optional sound file URL
+
+  classNames?: {              // Per-reaction style overrides
+    menuItem?: string;
+    menuIcon?: string;
+    tooltip?: string;
+  };
+
+  afterReactionClassNames?: { // Styles applied when this reaction is active
+    button?: string;
+    text?: string;
+    icon?: string;
+  };
+};
 ```
 
 ---
 
+## Contributing
 
-## 🤝 Contributing
-
-We believe great tools are built together. Here's how you can contribute:
-
-1. **Fork the repo** and create your feature branch
-2. **Write code** that makes people smile 😊
-3. **Add tests** for new features
-4. **Update documentation** to help others
-5. **Submit a pull request** with clear description
-
+1. Fork the repo and create your feature branch
+2. Write code and add tests for new features
+3. Update documentation where needed
+4. Submit a pull request with a clear description
 
 ---
 
-## 📄 License
+## License
 
-MIT © Isaac Anasonye
-
----
-
-## 🙌 Acknowledgments
-
-- Inspired by the delightful reaction systems on Facebook, LinkedIn, and Medium
-- Powered by the incredible [Framer Motion](https://www.framer.com/motion/) library
-- Built with love for the React community
+MIT © [Isaac Anasonye](https://github.com/Isaacprogi)
 
 ---
 
-## 💬 Support & Community
+## Acknowledgments
 
-- **Issues**: [GitHub Issues](https://github.com/Isaacprogi/tap-react/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/Isaacprogi/tap-react/discussions)
+Inspired by the reaction systems on Facebook, LinkedIn, and Medium. Powered by [Framer Motion](https://www.framer.com/motion/).
 
 ---
 
-**Made with ❤️ by Isaac Anasonye**
-
-*Transform your interactions. One reaction at a time.*
-```
+**Issues & Discussions:** [GitHub](https://github.com/Isaacprogi/tap-react/issues)

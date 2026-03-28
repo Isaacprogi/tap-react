@@ -50,7 +50,7 @@ export interface IReactionButton {
     text?: string;
     icon?: string;
     menu?: string;
-    menuWrapperClass?: string;
+    menuWrapper?: string;
     menuIcon?: string;
     menuItem?:string;
     tooltip?: string;
