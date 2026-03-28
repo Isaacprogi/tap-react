@@ -126,6 +126,9 @@ Casual/Discord-style expressive reactions.
 ---
 
 
+Here's the updated styling guide with the priority hierarchy clearly explained:
+
+```markdown
 ## 🎨 Styling Guide
 
 ### ⚠️ **IMPORTANT: ClassName Override Behavior**
@@ -143,65 +146,111 @@ Casual/Discord-style expressive reactions.
 // ✅ You must provide all necessary styles for each className
 <ReactionButton
   classNames={{
-    button: "inline-flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors",
+    button: "inline-flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg",
     text: "text-sm font-medium text-gray-700",
     icon: "text-xl",
-    menu: "absolute bg-white rounded-xl shadow-lg border border-gray-200 p-2 min-w-[200px] z-50",
+    menu: "absolute bg-white rounded-xl shadow-lg border p-2 min-w-[200px] z-50",
     menuWrapperClass: "relative",
-    menuIcon: "flex items-center justify-center w-10 h-10 rounded-lg hover:bg-gray-100 transition-all",
+    menuIcon: "flex items-center justify-center w-10 h-10 rounded-lg hover:bg-gray-100",
     tooltip: "absolute -top-8 left-1/2 -translate-x-1/2 bg-gray-900 text-white text-xs px-2 py-1 rounded whitespace-nowrap"
   }}
 />
 ```
 
-### Understanding the Override Hierarchy
+### Styling Priority Hierarchy
 
-```tsx
-// Level 1: No custom classes → uses package defaults
-<ReactionButton reactions={reactions} />
-
-// Level 2: Custom button class → button uses ONLY your styles
-// Other elements (menu, icons) still use package defaults
-<ReactionButton 
-  reactions={reactions}
-  classNames={{ button: "my-button-style" }}
-/>
-
-// Level 3: Multiple custom classes → each overrides its respective element
-// You must style each overridden element completely
-<ReactionButton 
-  reactions={reactions}
-  classNames={{
-    button: "my-button-style",      // Button loses all defaults
-    menu: "my-menu-style",          // Menu loses all defaults
-    menuIcon: "my-icon-style",      // Icons lose all defaults
-    tooltip: "my-tooltip-style"     // Tooltips lose all defaults
-  }}
-/>
-
-MenuIcon style will also be overiddden by that from single reaction
-
+Styles cascade from most specific to most general:
 
 ```
+Priority: Per-Reaction > Main Config > Defaults
+```
 
-### Per-Reaction Override Behavior
-
-The same override principle applies to individual reaction styling:
+| Level | Source | When Applied |
+|-------|--------|--------------|
+| **1 (Highest)** | Per-reaction `classNames` | Always overrides main config and defaults |
+| **2** | Main component `classNames` | Applied when per-reaction doesn't specify |
+| **3 (Lowest)** | Package defaults | Only when no custom classes provided |
 
 ```tsx
+// Main config styles
+const mainClassNames = {
+  menuIcon: "w-10 h-10 rounded-lg bg-gray-100",  // Base for all reactions
+  menuItem: "p-2 rounded-md"
+};
+
 const reactions = [
   {
     id: "like",
     label: "Like",
-    icon: <HiOutlineHandThumbUp />,
+    icon: <HiHeart />,
     classNames: {
-      menuItem: "custom-menu-item",  // Loses all default menu item styles
-      menuIcon: "custom-icon",       // Loses all default icon styles
-      tooltip: "custom-tooltip"      // Loses all default tooltip styles
+      menuIcon: "bg-red-100 text-red-500",  // ⚡ Wins! Overrides main config
+      // menuItem not specified → uses main config styles
     }
+  },
+  {
+    id: "love",
+    label: "Love",
+    icon: <HiHeart />
+    // No per-reaction styles → uses main config for all
   }
 ];
+
+<ReactionButton
+  reactions={reactions}
+  classNames={mainClassNames}
+/>
 ```
+
+### Override Examples
+
+**Level 1: No custom classes** → uses package defaults
+```tsx
+<ReactionButton reactions={reactions} />
+```
+
+**Level 2: Main config only** → overrides defaults for specified elements
+```tsx
+<ReactionButton 
+  reactions={reactions}
+  classNames={{ button: "my-button-style" }}
+/>
+// Button uses "my-button-style", all other elements use defaults
+```
+
+**Level 3: Main + Per-reaction** → per-reaction wins for its elements
+```tsx
+<ReactionButton 
+  reactions={reactions}
+  classNames={{
+    menuIcon: "w-10 h-10 rounded-lg",     // Base style
+    menuItem: "p-2 hover:bg-gray-100"
+  }}
+/>
+// Per-reaction menuIcon overrides main menuIcon
+// Per-reaction menuItem overrides main menuItem if specified
+```
+
+### Essential Styles Checklist
+
+When overriding classes, ensure your custom styles include:
+
+| Element | Required Styles |
+|---------|-----------------|
+| **button** | `display`, `padding`, `cursor`, `background`, `border-radius` |
+| **text** | `font-size`, `font-weight`, `color` |
+| **icon** | `font-size` or `width/height` |
+| **menu** | `position: absolute`, `z-index`, `background`, `box-shadow`, `min-width` |
+| **menuWrapperClass** | `position: relative` |
+| **menuIcon** | `display: flex`, `align-items`, `justify-content`, `padding`, `border-radius` |
+| **tooltip** | `position: absolute`, `z-index`, `background`, `color`, `padding`, `border-radius`, `white-space: nowrap` |
+```
+
+The key additions:
+1. Clear priority hierarchy table showing Per-Reaction > Main Config > Defaults
+2. Visual example demonstrating per-reaction menuIcon overriding main config
+3. Concrete example showing main config + per-reaction interplay
+4. Simplified explanation without excessive text
 
 ### Essential Styles Checklist
 
