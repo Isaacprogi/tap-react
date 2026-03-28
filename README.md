@@ -227,22 +227,6 @@ const reactions = [
 
 ---
 
-### Required Styles per Element
-
-When overriding, ensure your custom styles include these essential properties:
-
-| Element | Required Styles |
-|---------|-----------------|
-| `button` | `display`, `padding`, `cursor`, `background`, `border-radius` |
-| `text` | `font-size`, `font-weight`, `color` |
-| `icon` | `font-size` or `width/height` |
-| `menu` | `position: absolute`, `z-index`, `background`, `box-shadow`, `min-width` |
-| `menuWrapper` | `position: relative` |
-| `menuItem` | `display`, `align-items`, `padding`, `border-radius` |
-| `menuIcon` | `display: flex`, `align-items`, `justify-content`, `padding`, `border-radius` |
-| `tooltip` | `position: absolute`, `z-index`, `background`, `color`, `padding`, `border-radius`, `white-space: nowrap` |
-
----
 
 ### Styling Examples
 
