@@ -136,12 +136,13 @@ Casual/Discord-style expressive reactions.
 Styles cascade from most specific to most general:
 
 ```
-Per-Reaction styles  →  Main Config  →  Defaults
-     (highest)                           (lowest)
+afterReactionClassNames  →  Per-Reaction classNames  →  Main Config classNames  →  Defaults
+      (highest)                                                                     (lowest)
 ```
 
 ```tsx
 const mainClassNames = {
+  button: "px-4 py-2 rounded-lg bg-gray-100",
   menuIcon: "w-10 h-10 rounded-lg bg-gray-100",
   menuItem: "p-2 rounded-md"
 };
@@ -152,20 +153,79 @@ const reactions = [
     label: "Like",
     icon: <HiHeart />,
     classNames: {
-      menuIcon: "bg-red-100 text-red-500",  // Overrides main config
-      // menuItem not specified → falls back to main config
+      menuIcon: "bg-red-100 text-red-500",  // Overrides main config for this reaction's menu icon
+    },
+    afterReactionClassNames: {
+      button: "px-4 py-2 rounded-lg bg-blue-100 text-blue-600 font-semibold", // Active state for button
+      icon: "text-blue-500",     // Active state for icon
+      text: "text-blue-600",     // Active state for text
     }
   },
-  {
-    id: "love",
-    label: "Love",
-    icon: <HiHeart />
-    // No per-reaction styles → main config applies
-  }
 ];
 
 <ReactionButton reactions={reactions} classNames={mainClassNames} />
 ```
+
+---
+
+### ⚠️ Critical: Syncing `classNames` and `afterReactionClassNames`
+
+`afterReactionClassNames` **completely replaces** the corresponding `classNames` entry when a reaction is active — it does not extend or merge. This means **any style you set in `classNames` but not in `afterReactionClassNames` will be lost when the reaction is selected**, and vice versa.
+
+**You must deliberately carry over all shared base styles into both.**
+
+```tsx
+// ❌ BROKEN — button loses its shape/padding when selected
+const reactions = [
+  {
+    id: "like",
+    label: "Like",
+    icon: <HiHeart />,
+    afterReactionClassNames: {
+      button: "text-blue-600 font-semibold", // Missing layout styles!
+    }
+  }
+];
+
+<ReactionButton
+  reactions={reactions}
+  classNames={{
+    button: "inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-gray-100",
+  }}
+/>
+// When "like" is selected, the button becomes "text-blue-600 font-semibold"
+// — all the padding, rounding, and layout disappear.
+```
+
+```tsx
+// ✅ CORRECT — base styles are repeated in afterReactionClassNames, only color differs
+const reactions = [
+  {
+    id: "like",
+    label: "Like",
+    icon: <HiHeart />,
+    afterReactionClassNames: {
+      button: "inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-50 text-blue-600 font-semibold",
+      //       ^^^ same layout as classNames.button ^^^         ^^^ only this part changed ^^^
+      icon: "text-xl text-blue-500",
+      text: "text-sm font-semibold text-blue-600",
+    }
+  }
+];
+
+<ReactionButton
+  reactions={reactions}
+  classNames={{
+    button: "inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-gray-100",
+    icon: "text-xl text-gray-500",
+    text: "text-sm font-medium text-gray-700",
+  }}
+/>
+```
+
+**The rule of thumb:** start by copying your `classNames` values into `afterReactionClassNames`, then only change what should look different in the active/selected state.
+
+---
 
 ### Required Styles per Element
 
@@ -181,6 +241,8 @@ When overriding, ensure your custom styles include these essential properties:
 | `menuItem` | `display`, `align-items`, `padding`, `border-radius` |
 | `menuIcon` | `display: flex`, `align-items`, `justify-content`, `padding`, `border-radius` |
 | `tooltip` | `position: absolute`, `z-index`, `background`, `color`, `padding`, `border-radius`, `white-space: nowrap` |
+
+---
 
 ### Styling Examples
 
@@ -534,18 +596,6 @@ When Framer Motion animations are enabled, **do not add CSS transitions to the s
 
 ---
 
-## Use Cases
-
-| Context | Recommended Config |
-|---------|-------------------|
-| Social media feed | `reactions={socialReactions}` `displayMode="both"` `menuPosition={{ side: "top", align: "start" }}` |
-| Blog comments | `reactions={insightReactions}` `displayMode="icon"` `enableTooltip={true}` |
-| Product reviews | `reactions={feedbackReactions}` `displayMode="text"` `scaleConfig={{ hoverScale: 1.3 }}` |
-| Live chat | `reactions={vibeReactions}` `displayMode="icon"` `menuPosition={{ side: "top", align: "center" }}` |
-| E-commerce ratings | `reactions={ratingReactions}` `displayMode="both"` |
-
----
-
 ## API Reference
 
 ### ReactionButton Props
@@ -571,7 +621,7 @@ When Framer Motion animations are enabled, **do not add CSS transitions to the s
 | `hoverScale` | `number` | `1.25` | Scale factor when hovering |
 | `shrinkFactor` | `number` | `0.7` | Scale factor for non-hovered items |
 | `shouldShrink` | `boolean` | `true` | Whether to shrink non-hovered items |
-| `scaleType` | `"up" \| "down" \| "center"` | `"up"` | Animation direction |
+| `scaleType` | `"up" \| "down" \| "center"` | `"center"` | Animation direction |
 
 ### AnimationConfig
 
@@ -617,13 +667,15 @@ type Reaction = {
     tooltip?: string;
   };
 
-  afterReactionClassNames?: { // Styles applied when this reaction is active
-    button?: string;
-    text?: string;
-    icon?: string;
+  afterReactionClassNames?: { // Styles applied when this reaction is active (selected state)
+    button?: string;          // ⚠️ Replaces classNames.button entirely — carry over shared base styles
+    icon?: string;            // ⚠️ Replaces classNames.icon entirely — carry over shared base styles
+    text?: string;            // ⚠️ Replaces classNames.text entirely — carry over shared base styles
   };
 };
 ```
+
+> **See the [Style Syncing section](#️-critical-syncing-classnames-and-afterreactionclassnames) above** for the full breakdown of how `afterReactionClassNames` interacts with `classNames` and how to avoid losing styles on selection.
 
 ---
 
