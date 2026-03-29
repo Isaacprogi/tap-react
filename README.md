@@ -429,7 +429,7 @@ json-server --watch  db.json  --port  3000
 
 import { useEffect, useState } from  "react";
 
-import { ReactionButton, reactionGroups } from  'tap-react';
+import { ReactionButton } from  'tap-react';
 
   
 
@@ -519,27 +519,13 @@ currentReactionId={post.reactionId}
 
 disabled={loading}
 
-reactions={reactionGroups.socialReactions}
+reactions={reactions}
 
 onReactionSelect={handleReaction}
 
 menuPosition={{ side: "top", align: "start" }}
 
-scaleConfig={{ hoverScale: 1.6, shrinkFactor: 0.7, shouldShrink: true, scaleType: "up" }}
-
-classNames={{
-
-button: "rounded-xl px-4 py-2 bg-gray-50 hover:bg-gray-100 transition",
-
-text: "text-sm font-medium",
-
-icon: "text-xl",
-
-menu: "bg-white shadow-xl border rounded-xl p-2",
-
-menuIcon: "hover:scale-110 transition-transform"
-
-}}
+scaleConfig={{ hoverScale: 1.6, shrinkFactor: 0.7, shouldShrink: true, scaleType: "center" }}
 
 />
 
@@ -1030,22 +1016,14 @@ menuIcon: "transition-transform duration-200"
 | `items` | `boolean` | `true` | Enable individual reaction animations |
 
   
-
 ### SoundConfig
+| Property          | Type                             | Default     | Description                                                  |
+| ----------------- | -------------------------------- | ----------- | ------------------------------------------------------------ |
+| `enabled`         | `boolean`                        | `false`     | Enable sound effects                                         |
+| `playOn`          | `"click" \| "hover" \| "manual"` | `undefined` | When to trigger sounds                                       |
+| `onManualTrigger` | `(playSound) => void`            | `undefined` | Required when `playOn="manual"` — receives the play function |
 
-  
 
-| Property | Type | Description |
-
-|----------|------|-------------|
-
-| `enabled` | `boolean` | Enable sound effects |
-
-| `playOn` | `"click" \| "hover" \| "manual"` | When to trigger sounds |
-
-| `onManualTrigger` | `(playSound) => void` | Required when `playOn="manual"` — receives the play function |
-
-  
 
 ### ClassNames
 
@@ -1057,9 +1035,9 @@ menuIcon: "transition-transform duration-200"
 
 | `button` | Main button container |
 
-| `text` | Reaction text when visible |
+| `text` | Main button text |
 
-| `icon` | Reaction icon when visible |
+| `icon` | Main button icon |
 
 | `menu` | Menu container |
 
