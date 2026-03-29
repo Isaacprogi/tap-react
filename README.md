@@ -618,11 +618,9 @@ type Reaction = {
 
 ## License
 
-This project is licensed under the MIT License.
+Tap React is licensed under the MIT License.
 
-See the [LICENSE](./LICENSE) file for details.
-
-MIT © Isaac Anasonye (https://github.com/Isaacprogi)
+See the [LICENSE](./LICENSE) file for full details.
 
 ---
 
