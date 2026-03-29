@@ -42,7 +42,7 @@ export interface IReactionButton {
 
   disabled?: boolean;
 
-  currentReactionId: string;
+  currentReactionId?: string;
   enableTooltip?: boolean;
 
   classNames?: {

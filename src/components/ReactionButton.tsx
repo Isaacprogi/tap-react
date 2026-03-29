@@ -86,26 +86,28 @@ export const ReactionButton = ({
   };
 
   const handleClick = () => {
-    if (!initialReaction) return;
-    const prev = selected || currentReactionId;
+  if (!initialReaction) return;
 
-    if (selectedReaction) {
-      setSelected("");
-      onReactionSelect?.("", { revert: createRevert(prev) });
-    } else {
-      if (soundConfig?.enabled && soundConfig.playOn === "click") {
-        soundMap[reactions[0].id]?.();
-      }
+  const prev = selected || currentReactionId;
+  if (!prev) return;
 
-      if (soundConfig?.playOn === "manual") {
-        soundConfig?.onManualTrigger?.(soundMap[reactions[0].id]);
-      }
-
-      setSelected(reactions[0].id);
-      onReactionSelect?.(reactions[0].id, { revert: createRevert(prev) });
-      setOpen(false);
+  if (selectedReaction) {
+    setSelected("");
+    onReactionSelect?.("", { revert: createRevert(prev) });
+  } else {
+    if (soundConfig?.enabled && soundConfig.playOn === "click") {
+      soundMap[reactions[0].id]?.();
     }
-  };
+
+    if (soundConfig?.playOn === "manual") {
+      soundConfig?.onManualTrigger?.(soundMap[reactions[0].id]);
+    }
+
+    setSelected(reactions[0].id);
+    onReactionSelect?.(reactions[0].id, { revert: createRevert(prev) });
+    setOpen(false);
+  }
+};
 
   let afterButton = "";
 
@@ -235,6 +237,7 @@ export const ReactionButton = ({
                 reactions={reactions}
                 onSelect={(id) => {
                   const prev = selected || currentReactionId;
+                   if (!prev) return;
                   setSelected(id);
 
                   if (soundConfig?.playOn === "manual") {
