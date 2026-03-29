@@ -1,10 +1,11 @@
 import { ThumbsUp, Heart, Gift, Sparkles, Flame } from "lucide-react";
 
-import likeSound from "./assets/sounds/celebrate.mp3";
-import heartSound from "./assets/sounds/love.mp3";
-import celebrateSound from "./assets/sounds/celebrate.mp3";
-import wowSound from "./assets/sounds/wow.mp3";
-import fireSound from "./assets/sounds/fire.mp3";
+import likeSound from "../assets/sounds/celebrate.mp3";
+import heartSound from "../assets/sounds/love.mp3";
+import celebrateSound from "../assets/sounds/celebrate.mp3";
+import wowSound from "../assets/sounds/wow.mp3";
+import fireSound from "../assets/sounds/fire.mp3";
+
 import { defineReactionsConfig } from "../lib/utils";
 
 export const reactions = defineReactionsConfig([

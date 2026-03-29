@@ -1,5 +1,4 @@
 folder public {
-  file rv-screenshot.png
 }
 folder src {
   folder components {
@@ -9,22 +8,37 @@ folder src {
   }
   folder hooks {
     file useReaction.ts
+    file useSound.ts
   }
   folder lib {
     file types.ts
     file utils.ts
+  }
+  folder sample {
+    folder sounds {
+      file celebrate.mp3
+      file fire.mp3
+      file like.mp3
+      file love.mp3
+      file wow.mp3
+    }
+    file reactions.tsx
+  }
+  folder styles {
+    file ReactionButton.module.css
+    file ReactionItem.module.css
+    file ReactionMenu.module.css
   }
   file index.css
   file index.ts
   file vite-env.d.ts
 }
 file .gitignore
+file .npmignore
 file eslint.config.js
-file index.html
 file package-lock.json
 file package.json
-file postcss.config.js
 file README.md
-file tailwind.config.js
+file tap-react-1.0.1.tgz
 file tsconfig.json
 file vite.config.ts

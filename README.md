@@ -7,7 +7,7 @@
 
 
 > 📦 **Reactions Source:**  
->  See `data/reactions.ts` for reaction sample and reference.
+>  See `src/data/reactions.tsx` and  `src/assets/sounds` for reaction and sound samples for reference and test.
 ---
 
 ## Table of Contents
