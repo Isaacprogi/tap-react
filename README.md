@@ -618,7 +618,11 @@ type Reaction = {
 
 ## License
 
-MIT © [Isaac Anasonye](https://github.com/Isaacprogi)
+This project is licensed under the MIT License.
+
+See the [LICENSE](./LICENSE) file for details.
+
+MIT © Isaac Anasonye (https://github.com/Isaacprogi)
 
 ---
 
