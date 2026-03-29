@@ -4,32 +4,26 @@
 }
 
 .buttonBase {
-  border-radius: 9999px;
-  font-size: 0.875rem;
-  padding: 0.75rem 1rem;
-  background-color: #ffffff; 
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   display: flex;
   align-items: center;
   justify-content: center;
+  border-radius: 9999px;
+  padding: 1rem;
+  background-color: #ffffff !important; 
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   gap: 0.5rem;
-  border: 1px solid #d1d5db;
+  border: 1px solid #d1d5db !important;
   font-weight: 500;
-  transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
-  outline: none;
+  outline: none; 
 }
 
-.buttonBase svg,
-.buttonBase img,
-.buttonBase i {
-  display: block;
-  width: 1.5rem;
-  height: 1.5rem;
+.buttonBaseTransition{
+   transition: background-color 0.2s ease;
 }
 
 .buttonBase:hover:not(:disabled) {
-  background-color: #e5e7eb; 
+  background-color: #e5e7eb !important; 
 }
 
 .buttonBase:disabled {
@@ -37,14 +31,7 @@
   opacity: 0.5;
 }
 
-/* Display Mode Classes */
-.iconOnly { font-size: 1.5rem; }
-.textOnly { font-weight: 500; }
-.bothWrapper { display: flex; align-items: center; gap: 0.5rem; }
-.bothIcon { font-size: 1.25rem; }
-.bothText { font-weight: 500; font-size: 0.875rem; }
 
-/* Menu Positioning */
 .menuContainer {
   position: absolute;
   z-index: 20;
@@ -64,6 +51,5 @@
 .sideTop { bottom: 100%; margin-bottom: 0.75rem; }
 .sideBottom { top: 100%; margin-top: 0.75rem; }
 
-/* Default Color States (Fallbacks) */
-.textDefault { color: #6b7280; } 
+.textDefault { color: #333436; } 
 .textActive { color: #3b82f6; } 

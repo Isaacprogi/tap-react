@@ -8,6 +8,7 @@ import { useSound } from "../hooks/useSound";
 import styles from "../styles/ReactionButton.module.css";
 import { useSoundMap } from "../lib/utils";
 import clsx from "clsx";
+import { useAnimation } from "framer-motion";
 
 export const ReactionButton = ({
   reactions,
@@ -36,6 +37,23 @@ export const ReactionButton = ({
   const { selected, setSelected, open, setOpen } = useReaction();
   const instanceId = useId();
   const timeoutRef = useRef<number | null>(null);
+
+  const controls = useAnimation();
+
+  const handleTap = async () => {
+  if (!shouldButtonAnimate) return;
+
+  controls.stop();
+
+  await controls.start({
+    scale: [1, 0.3, 1.05, 1],
+    transition: {
+      duration: 0.3,
+      times: [0, 0.4, 0.7, 1],
+      ease: "easeOut",
+    },
+  });
+};
 
   const soundMap = useSoundMap(reactions, soundConfig?.enabled);
 
@@ -100,14 +118,21 @@ export const ReactionButton = ({
     if (!initialReaction) return null;
     const displayReaction = selectedReaction || initialReaction;
 
-    const afterText =
+    const textClass =
       selectedReaction?.afterReactionClassNames?.text ||
-      (selectedReaction ? styles.textActive : styles.textDefault);
-    const afterIcon =
-      selectedReaction?.afterReactionClassNames?.icon ||
-      (selectedReaction ? styles.textActive : styles.textDefault);
+      (selectedReaction
+        ? styles.textActive
+        : classNames?.text
+          ? classNames.text
+          : styles.textDefault);
 
-      console.log(selectedReaction)
+    const iconClass =
+      selectedReaction?.afterReactionClassNames?.icon ||
+      (selectedReaction
+        ? styles.textActive
+        : classNames?.icon
+          ? classNames.icon
+          : styles.textDefault);
 
     switch (displayMode) {
       case "icon":
@@ -115,10 +140,7 @@ export const ReactionButton = ({
           <motion.span
             layoutId={`reaction-${instanceId}-${displayReaction.id}`}
             transition={{ type: "spring", stiffness: 500, damping: 30 }}
-            className={mergeClass(
-              afterIcon ||
-              classNames?.icon
-            )}
+            className={mergeClass(iconClass)}
           >
             {displayReaction.icon}
           </motion.span>
@@ -128,10 +150,7 @@ export const ReactionButton = ({
         return (
           <motion.span
             transition={{ type: "spring", stiffness: 500, damping: 30 }}
-            className={mergeClass(
-              afterText ||
-              classNames?.text
-            )}
+            className={mergeClass(textClass)}
           >
             {displayReaction.label}
           </motion.span>
@@ -139,34 +158,26 @@ export const ReactionButton = ({
 
       case "both":
         return (
-          <span className={styles.bothWrapper}>
+          <>
             <motion.span
               layoutId={`reaction-${instanceId}-${displayReaction.id}`}
               transition={{ type: "spring", stiffness: 500, damping: 30 }}
-              className={mergeClass(
-                afterIcon ||
-                classNames?.icon
-              )}
+              className={mergeClass(iconClass)}
             >
               {displayReaction.icon}
             </motion.span>
             <motion.span
               transition={{ type: "spring", stiffness: 500, damping: 30 }}
-              className={mergeClass(
-                afterText ||
-                classNames?.text
-              )}
+              className={mergeClass(textClass)}
             >
               {displayReaction.label}
             </motion.span>
-          </span>
+          </>
         );
 
       default:
         return (
-          <span className={mergeClass(classNames?.icon || afterIcon)}>
-            {displayReaction.icon}
-          </span>
+          <span className={mergeClass(iconClass)}>{displayReaction.icon}</span>
         );
     }
   }
@@ -184,17 +195,23 @@ export const ReactionButton = ({
   return (
     <LayoutGroup>
       <div
-        className={clsx(styles.container,'tap-root')}
+        className={clsx(styles.container, "tap-root")}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
         <motion.button
           disabled={disabled}
-          onClick={handleClick}
           onMouseEnter={handleMouseEnter}
-          whileTap={shouldButtonAnimate ? { scale: 0.97 } : undefined}
-          whileHover={shouldButtonAnimate ? { scale: 1.02 } : undefined}
+          onClick={() => {
+            handleClick();
+            if (shouldButtonAnimate) {
+              handleTap();
+            }
+          }}
+          initial={{ scale: 1 }}  
+          animate={controls}
           className={mergeClass(
+            shouldButtonAnimate && styles.buttonBaseTransition,
             selectedReaction &&
               selectedReaction?.afterReactionClassNames?.button
               ? afterButton
@@ -202,6 +219,7 @@ export const ReactionButton = ({
                 ? classNames.button
                 : styles.buttonBase,
           )}
+          
         >
           {renderContent()}
         </motion.button>

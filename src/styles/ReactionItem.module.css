@@ -21,7 +21,6 @@
 }
 
 .menuItem {
-  font-size: 2.25rem;
   padding: .5rem;
   border-radius: 100%;
   display: flex;
@@ -33,10 +32,4 @@
   cursor: pointer;
 }
 
-.menuItem svg,
-.menuItem img,
-.menuItem i {
-  display: block;
-  width: 1.5rem;
-  height: 1.5rem;
-}
+
