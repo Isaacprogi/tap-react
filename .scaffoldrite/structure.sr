@@ -38,7 +38,7 @@ file .npmignore
 file eslint.config.js
 file package-lock.json
 file package.json
+file postcss.config.cjs
 file README.md
-file tap-react-1.0.1.tgz
 file tsconfig.json
 file vite.config.ts

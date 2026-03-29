@@ -87,7 +87,6 @@
     "node": ">=16"
   },
   "dependencies": {
-    "clsx": "^2.1.1",
-    "tap-react": "file:tap-react-1.0.1.tgz"
+    "clsx": "^2.1.1"
   }
 }
