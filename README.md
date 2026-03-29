@@ -5,6 +5,9 @@
 [![npm version](https://badge.fury.io/js/tap-react.svg)](https://www.npmjs.com/package/tap-react)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
+
+> 📦 **Reactions Source:**  
+>  See `data/reactions.ts` for reaction sample and reference.
 ---
 
 ## Table of Contents
@@ -55,13 +58,14 @@ Tap React brings the polish of Facebook, LinkedIn, and Medium reactions to your 
 npm install framer-motion tap-react
 ```
 
+
 ```tsx
 import { ReactionButton } from 'tap-react'
-import { HiHeart, HiOutlineHandThumbUp } from "react-icons/hi2";
+import { ThumbsUp, Heart } from "lucide-react";
 
 const reactions = [
-  { id: "like", label: "Like", icon: <HiOutlineHandThumbUp /> },
-  { id: "love", label: "Love", icon: <HiHeart /> },
+  { id: "like", label: "Like", icon: <ThumbsUp /> },
+  { id: "love", label: "Love", icon: <Heart /> },
 ];
 
 function App() {
@@ -77,6 +81,7 @@ function App() {
   );
 }
 ```
+
 
 ---
 
@@ -95,18 +100,16 @@ function App() {
 />
 
 // ✅ Provide all necessary styles for each element
-<ReactionButton
-  classNames={{
-    button: "inline-flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg",
+     classNames={{
+    button: "flex items-center  gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg",
     text: "text-sm font-medium text-gray-700",
     icon: "text-xl",
-    menu: "absolute bg-white rounded-xl shadow-lg border p-2 min-w-[200px] z-50",
-    menuWrapper: "relative",
+    menu: "flex gap-4 bg-white rounded-xl shadow-lg border p-2 min-w-[200px] z-50",
+    menuWrapper: "relative bg-white",
     menuItem: "flex items-center gap-2 rounded-lg hover:bg-gray-50",
     menuIcon: "flex items-center justify-center w-10 h-10 rounded-lg hover:bg-gray-100",
-    tooltip: "absolute -top-8 left-1/2 -translate-x-1/2 bg-gray-900 text-white text-xs px-2 py-1 rounded whitespace-nowrap"
+    tooltip: "absolute -top-10  -translate-x-1/2 bg-gray-900 text-white text-xs px-2 py-1 rounded whitespace-nowrap"
   }}
-/>
 ```
 
 ### Style Priority
@@ -129,7 +132,7 @@ const reactions = [
   {
     id: "like",
     label: "Like",
-    icon: <HiHeart />,
+    icon: <Heart />,
     classNames: {
       menuIcon: "bg-red-100 text-red-500", // Overrides main config for this reaction's menu icon
     },
@@ -143,6 +146,11 @@ const reactions = [
 
 <ReactionButton reactions={reactions} classNames={mainClassNames} />
 ```
+
+
+### Style Notes
+
+Ensure the `menuWrapper` always has a background if overidden or equivalent background, as this improves animation stability and prevents visual glitches during transitions.
 
 ---
 
@@ -158,7 +166,7 @@ const reactions = [
   {
     id: "like",
     label: "Like",
-    icon: <HiHeart />,
+    icon: <Heart />,
     afterReactionClassNames: {
       button: "text-blue-600 font-semibold", // Missing layout styles!
     }
@@ -168,7 +176,7 @@ const reactions = [
 <ReactionButton
   reactions={reactions}
   classNames={{
-    button: "inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-gray-100",
+    button: "flex items-center gap-2 px-4 py-2 rounded-lg bg-gray-100",
   }}
 />
 // When "like" is selected, the button becomes "text-blue-600 font-semibold"
@@ -181,9 +189,9 @@ const reactions = [
   {
     id: "like",
     label: "Like",
-    icon: <HiHeart />,
+    icon: <Heart />,
     afterReactionClassNames: {
-      button: "inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-50 text-blue-600 font-semibold",
+      button: " items-center gap-2 px-4 py-2 rounded-lg bg-blue-50 text-blue-600 font-semibold",
       //       ^^^ same layout as classNames.button ^^^              ^^^ only this part changed ^^^
       icon: "text-xl text-blue-500",
       text: "text-sm font-semibold text-blue-600",
@@ -194,7 +202,7 @@ const reactions = [
 <ReactionButton
   reactions={reactions}
   classNames={{
-    button: "inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-gray-100",
+    button: "flex items-center gap-2 px-4 py-2 rounded-lg bg-gray-100",
     icon: "text-xl text-gray-500",
     text: "text-sm font-medium text-gray-700",
   }}
@@ -234,6 +242,15 @@ json-server --watch db.json --port 3000
 ```tsx
 import { useEffect, useState } from "react";
 import { ReactionButton } from 'tap-react';
+import { ThumbsUp, Heart, Gift, Sparkles, Flame } from "lucide-react";
+
+const reactions = [
+  { id: "like", label: "Like", icon: <ThumbsUp /> },
+  { id: "love", label: "Love", icon: <Heart /> },
+  { id: "celebrate", label: "Celebrate", icon: <Gift /> },
+  { id: "insightful", label: "Insightful", icon: <Sparkles /> },
+  { id: "fire", label: "Fire", icon: <Flame /> },
+];
 
 type Post = {
   id: string;
@@ -339,9 +356,11 @@ Tap React supports three sound trigger modes:
 ### Click Mode
 
 ```tsx
+import { ThumbsUp, Heart } from "lucide-react";
+
 const reactions = [
-  { id: "like", label: "Like", icon: <HiOutlineHandThumbUp />, sound: likeSound },
-  { id: "love", label: "Love", icon: <HiHeart />, sound: loveSound },
+  { id: "like", label: "Like", icon: <ThumbsUp />, sound: likeSound },
+  { id: "love", label: "Love", icon: <Heart />, sound: loveSound },
 ];
 
 <ReactionButton
@@ -368,6 +387,12 @@ Manual mode gives you full control — play sound only after a successful API ca
 
 ```tsx
 import { useRef } from "react";
+import { ThumbsUp, Heart } from "lucide-react";
+
+const reactions = [
+  { id: "like", label: "Like", icon: <ThumbsUp /> },
+  { id: "love", label: "Love", icon: <Heart /> },
+];
 
 const PostCard = ({ post, onUpdate }) => {
   const [loading, setLoading] = useState(false);
@@ -417,6 +442,13 @@ const PostCard = ({ post, onUpdate }) => {
 ### Analytics Tracking
 
 ```tsx
+import { ThumbsUp, Heart } from "lucide-react";
+
+const reactions = [
+  { id: "like", label: "Like", icon: <ThumbsUp /> },
+  { id: "love", label: "Love", icon: <Heart /> },
+];
+
 <ReactionButton
   reactions={reactionGroups.socialReactions}
   onReactionSelect={(id, { revert }) => {
@@ -554,7 +586,7 @@ When Framer Motion animations are enabled, **do not add CSS transitions to the s
 type Reaction = {
   id: string;            // Unique identifier
   label: string;         // Display text
-  icon: React.ReactNode; // React icon component
+  icon: React.ReactNode; // React icon component (e.g., from lucide-react)
   sound?: string;        // Optional sound file URL
 
   classNames?: {         // Per-reaction style overrides
@@ -592,8 +624,9 @@ MIT © [Isaac Anasonye](https://github.com/Isaacprogi)
 
 ## Acknowledgments
 
-Inspired by the reaction systems on Facebook, LinkedIn, and Medium. Powered by [Framer Motion](https://www.framer.com/motion/).
+Inspired by the reaction systems on Facebook, LinkedIn, and Medium. Powered by [Framer Motion](https://www.framer.com/motion/). Icons by [Lucide React](https://lucide.dev/).
 
 ---
 
 **Issues & Discussions:** [GitHub](https://github.com/Isaacprogi/tap-react/issues)
+```
