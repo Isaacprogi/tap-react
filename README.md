@@ -2,7 +2,7 @@
 
 **Tap, React, Engage.** A beautifully animated reaction system that transforms static interactions into delightful moments.
 
-[![npm version](https://badge.fury.io/js/tap-react.svg)](https://www.npmjs.com/package/tap-react)
+[![npm version](https://badge.fury.io/js/tap-react.svg?t=123)](https://www.npmjs.com/package/tap-react)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 
