@@ -1,6 +1,6 @@
 {
   "name": "tap-react",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "A highly customizable animated reaction system for React (like Facebook, LinkedIn, and X reactions). Built with React, TypeScript, and Framer Motion.",
   "author": "Isaac Anasonye",
   "license": "MIT",
